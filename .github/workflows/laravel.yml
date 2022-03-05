@@ -1,7 +1,6 @@
 name: Laravel
 
-on:
-  push:
+on: push
 
 services:
   postgres:
