@@ -50,6 +50,6 @@ class LoginRequest extends FormRequest
             422
         );
 
-        throw new HttpResponseException($response, 422);
+        throw new HttpResponseException($response);
     }
 }
