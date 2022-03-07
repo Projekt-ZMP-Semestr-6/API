@@ -4,13 +4,12 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\LoginException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -22,12 +21,10 @@ class LoginController extends Controller
         $user = User::where('email', $validated['email'])->first();
 
         if(!$user || !Hash::check($validated['password'], $user->password)) {
-            throw new HttpResponseException(new JsonResponse('Incorrect credentials.', 422));
+            throw new LoginException();
         }
 
-        $token = $user->tokens->where('name', $deviceName)->first();
-        $token?->delete();
-
+        $user->tokens->where('name', $deviceName)->first()?->delete();
         $token = $user->createToken($deviceName)->plainTextToken;
 
         return new JsonResponse(['Bearer' => $token]);
