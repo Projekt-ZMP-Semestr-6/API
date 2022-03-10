@@ -13,11 +13,8 @@ trait HasUuid
         parent::boot();
 
         static::creating(function ($model) {
-
             $model->keyType = 'string';
-
             $model->incrementing = false;
-
             $model->{$model->getKeyName()} = $model->{$model->getKeyName()} ?? Str::orderedUuid();
         });
     }
