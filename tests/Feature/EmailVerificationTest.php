@@ -10,6 +10,7 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Notifications\Events\NotificationSending;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
@@ -47,15 +48,15 @@ class EmailVerificationTest extends TestCase
 
     public function test_sent_link_successfully_verifies_email(): void
     {
+        Event::fake([NotificationSending::class]);
+        Event::assertNothingDispatched();
+
         $user = $this->registerUser();
 
         Notification::fake();
         Notification::assertNothingSent();
 
-        $event = new Registered($user);
-        $listener = new SendEmailVerificationNotification();
-        $listener->handle($event);
-
+        Notification::send($user, new VerifyEmail());
         Notification::assertSentTo($user, VerifyEmail::class);
 
         $actionUrl = $this->getEmailVerificationUrl($user);
