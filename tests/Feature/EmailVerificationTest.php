@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
+use function PHPUnit\Framework\isNull;
+
 class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
@@ -64,7 +66,7 @@ class EmailVerificationTest extends TestCase
         $response = $this->getJson($actionUrl);
         $response->assertOk();
 
-        $this->assertNotNull($user->email_verified_at);
+        $this->assertTrue($user->hasVerifiedEmail());
     }
 
     public function test_unverified_user_can_not_enter_specific_route(): void
