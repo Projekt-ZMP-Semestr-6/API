@@ -10,13 +10,10 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Notifications\Events\NotificationSending;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
-
-use function PHPUnit\Framework\isNull;
 
 class EmailVerificationTest extends TestCase
 {
@@ -44,30 +41,6 @@ class EmailVerificationTest extends TestCase
         $listener->handle($event);
 
         Notification::assertSentTo($user, VerifyEmail::class);
-    }
-
-    public function test_sent_link_successfully_verifies_email(): void
-    {
-        Event::fake([NotificationSending::class]);
-        Event::assertNothingDispatched();
-
-        $user = $this->registerUser();
-
-        Notification::fake();
-        Notification::assertNothingSent();
-
-        Notification::send($user, new VerifyEmail());
-        Notification::assertSentTo($user, VerifyEmail::class);
-
-        $actionUrl = $this->getEmailVerificationUrl($user);
-
-        Sanctum::actingAs($user);
-        $this->assertNull($user->email_verified_at);
-
-        $response = $this->getJson($actionUrl);
-        $response->assertOk();
-
-        $this->assertTrue($user->hasVerifiedEmail());
     }
 
     public function test_unverified_user_can_not_enter_specific_route(): void
@@ -104,16 +77,4 @@ class EmailVerificationTest extends TestCase
 
         return User::find($response->json('id'));
     }
-
-    protected function getEmailVerificationUrl(User $user): string
-    {
-        $notifications = Notification::sent($user, VerifyEmail::class);
-        $notification = $notifications->first();
-
-        $url = $notification->toMail($user)->actionUrl;
-        $url = urldecode($url);
-
-        return str_replace('http://localhost?verify_url=', '', $url);
-    }
-
 }
