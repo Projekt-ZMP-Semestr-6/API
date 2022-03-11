@@ -5,6 +5,37 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/auth/email/verification-notification": {
+            "post": {
+                "tags": [
+                    "Email verification"
+                ],
+                "summary": "Resend notification",
+                "description": "Resend email verification notification",
+                "operationId": "resendEmailVerification",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "Mail sent!"
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/auth/login": {
             "post": {
                 "tags": [
