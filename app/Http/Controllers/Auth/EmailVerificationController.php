@@ -9,8 +9,21 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Post(
+ * path="/api/auth/email/verification-notification",
+ * summary="Resend notification",
+ * description="Resend email verification notification",
+ * operationId="resendEmailVerification",
+ * tags={"Email verification"},
+ * security={{"sanctum": {}}},
+ * @OA\Response(response=200, description="OK", @OA\JsonContent(type="string", example="Mail sent!")),
+ * @OA\Response(response=429, description="Too Many Requests")),
+ * )
+ */
 class EmailVerificationController extends Controller
 {
+
     public function notice(): JsonResponse
     {
         return new JsonResponse('First, you need to verify email address.');
@@ -27,6 +40,6 @@ class EmailVerificationController extends Controller
     {
         $request->user()->sendEmailVerificationNotification();
 
-        return new JsonResponse('Mail send!');
+        return new JsonResponse('Mail sent!');
     }
 }
