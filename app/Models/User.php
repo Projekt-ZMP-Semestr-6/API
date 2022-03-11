@@ -9,6 +9,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @OA\Schema(
+ * schema="User",
+ * type="object",
+ * @OA\Property(property="email", type="email", example="test@test.com"),
+ * @OA\Property(property="name", type="string", example="Greg"),
+ * @OA\Property(property="id", type="uuid", example="95c0fbe0-2ae6-4a99-a41c-14b0a68cf057"),
+ * @OA\Property(property="updated_at", type="date-time", example="2022-03-06T10:02:00.000000Z"),
+ * @OA\Property(property="created_at", type="date-time", example="2022-03-06T10:02:00.000000Z"),
+ * )
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuid;
