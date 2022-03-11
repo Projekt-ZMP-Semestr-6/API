@@ -11,6 +11,17 @@ use Illuminate\Http\Request;
 use Laravel\Sanctum\PersonalAccessToken;
 use Throwable;
 
+/**
+ * @OA\Get(
+ * path="/api/auth/logout",
+ * summary="Log out",
+ * description="Log out user",
+ * operationId="logout",
+ * tags={"auth"},
+ * security={{"sanctum": {}}},
+ * @OA\Response(response=200, description="OK")
+ * )
+ */
 class LogoutController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
