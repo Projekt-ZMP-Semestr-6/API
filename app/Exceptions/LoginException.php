@@ -12,7 +12,7 @@ class LoginException extends HttpResponseException
     public function __construct()
     {
         parent::__construct(
-            new JsonResponse('Incorrect credentials.', 422)
+            new JsonResponse('Incorrect credentials', 422)
         );
     }
 }
