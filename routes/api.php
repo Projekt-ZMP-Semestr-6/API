@@ -37,9 +37,9 @@ Route::prefix('/auth')->group(function () {
         Route::post('/verification-notification', 'resendMail')->middleware(['auth:sanctum', 'throttle:3,1'])->name('verification.send');
     });
 
-    Route::controller(ResetPasswordController::class)->middleware('guest')->group(function () {
-        Route::post('/forgot-password', 'sendNotification')->name('password.email');
-        Route::post('/reset-password', 'resetPassword')->name('password.update');
+    Route::prefix('/forgot-password')->controller(ResetPasswordController::class)->middleware('guest')->group(function () {
+        Route::post('/send', 'sendNotification')->name('password.email');
+        Route::post('/reset', 'resetPassword')->name('password.update');
     });
 });
 
