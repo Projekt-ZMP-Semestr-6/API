@@ -39,7 +39,7 @@
         "/api/auth/login": {
             "post": {
                 "tags": [
-                    "auth"
+                    "Auth"
                 ],
                 "summary": "Log in",
                 "description": "Login by email, password",
@@ -107,7 +107,7 @@
         "/api/auth/logout": {
             "get": {
                 "tags": [
-                    "auth"
+                    "Auth"
                 ],
                 "summary": "Log out",
                 "description": "Log out user",
@@ -127,7 +127,7 @@
         "/api/auth/register": {
             "post": {
                 "tags": [
-                    "auth"
+                    "Auth"
                 ],
                 "summary": "Register",
                 "description": "Register new account",
@@ -206,6 +206,96 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/auth/forgot-password/send": {
+            "post": {
+                "tags": [
+                    "Forgot Password"
+                ],
+                "summary": "Request notification",
+                "description": "Request reset password notification",
+                "operationId": "sendResetPasswordNotification",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "email",
+                                        "example": "test@test.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                }
+            }
+        },
+        "/api/auth/forgot-password/reset": {
+            "post": {
+                "tags": [
+                    "Forgot Password"
+                ],
+                "summary": "Reset password",
+                "description": "Reset password",
+                "operationId": "ResetPassword",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "token",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "example": "aa2aa9436157bad1f287119f85ac52127dfc40e5d9a58dd3886ac258a3e259b0"
+                                    },
+                                    "email": {
+                                        "type": "email",
+                                        "example": "test@test.com"
+                                    },
+                                    "password": {
+                                        "type": "password",
+                                        "example": "password123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
                     }
                 }
             }

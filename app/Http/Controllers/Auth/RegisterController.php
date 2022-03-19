@@ -19,7 +19,7 @@ use Throwable;
  * summary="Register",
  * description="Register new account",
  * operationId="register",
- * tags={"auth"},
+ * tags={"Auth"},
  * @OA\RequestBody(
  *      required=true,
  *      description="Pass user credentials",
