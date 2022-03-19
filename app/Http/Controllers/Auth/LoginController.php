@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Hash;
  * summary="Log in",
  * description="Login by email, password",
  * operationId="login",
- * tags={"auth"},
+ * tags={"Auth"},
  * @OA\RequestBody(
  *      required=true,
  *      description="Pass user's credentials to log in",

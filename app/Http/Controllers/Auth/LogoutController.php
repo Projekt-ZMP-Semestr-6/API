@@ -17,7 +17,7 @@ use Throwable;
  * summary="Log out",
  * description="Log out user",
  * operationId="logout",
- * tags={"auth"},
+ * tags={"Auth"},
  * security={{"sanctum": {}}},
  * @OA\Response(response=200, description="OK")
  * )
