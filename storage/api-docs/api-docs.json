@@ -210,7 +210,7 @@
                 }
             }
         },
-        "/api/auth/forgot-password/send": {
+        "/api/forgot-password/send": {
             "post": {
                 "tags": [
                     "Forgot Password"
@@ -249,7 +249,7 @@
                 }
             }
         },
-        "/api/auth/forgot-password/reset": {
+        "/api/forgot-password/reset": {
             "post": {
                 "tags": [
                     "Forgot Password"

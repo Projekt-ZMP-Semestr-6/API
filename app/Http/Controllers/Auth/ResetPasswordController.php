@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 
 /**
  * @OA\Post(
- * path="/api/auth/forgot-password/send",
+ * path="/api/forgot-password/send",
  * summary="Request notification",
  * description="Request reset password notification",
  * operationId="sendResetPasswordNotification",
@@ -43,7 +43,7 @@ use Illuminate\Support\Str;
  * )
  *
  * @OA\Post(
- * path="/api/auth/forgot-password/reset",
+ * path="/api/forgot-password/reset",
  * summary="Reset password",
  * description="Reset password",
  * operationId="ResetPassword",
