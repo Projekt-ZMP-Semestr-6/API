@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
@@ -28,7 +27,7 @@ class ForgotPasswordTest extends TestCase
         Notification::fake();
         Notification::assertNothingSent();
 
-        $response = $this->postJson('/api/auth/forgot-password/send', $data);
+        $response = $this->postJson(route('password.email'), $data);
         $response->assertOk();
 
         $this->assertSame(
@@ -53,7 +52,7 @@ class ForgotPasswordTest extends TestCase
         Notification::fake();
         Notification::assertNothingSent();
 
-        $response = $this->postJson('/api/auth/forgot-password/send', $data);
+        $response = $this->postJson(route('password.email'), $data);
         $response->assertRedirect();
 
         Notification::assertNotSentTo($user, ResetPassword::class);
@@ -68,7 +67,7 @@ class ForgotPasswordTest extends TestCase
         Notification::fake();
         Notification::assertNothingSent();
 
-        $response = $this->postJson('/api/auth/forgot-password/send', $data);
+        $response = $this->postJson(route('password.email'), $data);
         $response->assertUnprocessable();
 
         Notification::assertNothingSent();
@@ -79,7 +78,7 @@ class ForgotPasswordTest extends TestCase
         Notification::fake();
         Notification::assertNothingSent();
 
-        $response = $this->postJson('/api/auth/forgot-password/send');
+        $response = $this->postJson(route('password.email'));
         $response->assertUnprocessable();
 
         Notification::assertNothingSent();
@@ -96,7 +95,7 @@ class ForgotPasswordTest extends TestCase
 
         Notification::fake();
 
-        $response = $this->postJson('/api/auth/forgot-password/send', $data);
+        $response = $this->postJson(route('password.email'), $data);
         $response->assertOk();
 
         $notifications = Notification::sent($user, ResetPassword::class);
@@ -111,7 +110,7 @@ class ForgotPasswordTest extends TestCase
 
         $this->assertNotTrue(Hash::check('Pa$$w0rd', $user->password));
 
-        $response = $this->postJson('/api/auth/forgot-password/reset', $data);
+        $response = $this->postJson(route('password.update'), $data);
         $response->assertOk();
 
         $user->refresh();
