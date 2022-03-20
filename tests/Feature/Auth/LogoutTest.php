@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Feature;
+namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -28,7 +28,7 @@ class LogoutTest extends TestCase
     {
         $tokenWeb = $this->loginUser('web');
 
-        $response = $this->getJson('/api/auth/logout', ['Authorization' => "Bearer {$tokenWeb}"]);
+        $response = $this->getJson(route('auth.logout'), ['Authorization' => "Bearer {$tokenWeb}"]);
         $response->assertOk();
     }
 
@@ -36,7 +36,7 @@ class LogoutTest extends TestCase
     {
         $tokenWeb = $this->loginUser('phone');
 
-        $response = $this->getJson('/api/auth/logout', ['Authorization' => "Bearer {$tokenWeb}"]);
+        $response = $this->getJson(route('auth.logout'), ['Authorization' => "Bearer {$tokenWeb}"]);
         $response->assertOk();
     }
 
@@ -44,7 +44,7 @@ class LogoutTest extends TestCase
     {
         $tokenWeb = $this->loginUser('desktop');
 
-        $response = $this->getJson('/api/auth/logout', ['Authorization' => "Bearer {$tokenWeb}"]);
+        $response = $this->getJson(route('auth.logout'), ['Authorization' => "Bearer {$tokenWeb}"]);
         $response->assertOk();
     }
 
@@ -56,7 +56,7 @@ class LogoutTest extends TestCase
             'device_name' => $deviceName,
         ];
 
-        $response = $this->postJson('/api/auth/login', $data);
+        $response = $this->postJson(route('auth.login'), $data);
         $response->assertOk();
 
         return $response->json('Bearer');

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Feature;
+namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,7 +22,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => $fakePassword,
         ];
 
-        $response = $this->postJson('/api/auth/register', $data);
+        $response = $this->postJson(route('auth.register'), $data);
         $response->assertCreated();
 
         $createdUser = $response->json();
@@ -39,7 +39,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => $fakePassword,
         ];
 
-        $response = $this->postJson('/api/auth/register', $data);
+        $response = $this->postJson(route('auth.register'), $data);
         $response->assertUnprocessable();
     }
 
@@ -53,7 +53,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => $fakePassword,
         ];
 
-        $response = $this->postJson('/api/auth/register', $data);
+        $response = $this->postJson(route('auth.register'), $data);
         $response->assertUnprocessable();
     }
 
@@ -67,7 +67,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => $fakePassword,
         ];
 
-        $response = $this->postJson('/api/auth/register', $data);
+        $response = $this->postJson(route('auth.register'), $data);
         $response->assertUnprocessable();
 
 

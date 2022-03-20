@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Feature;
+namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,7 +30,7 @@ class LoginTest extends TestCase
             'device_name' => 'web',
         ];
 
-        $response = $this->postJson('/api/auth/login', $data);
+        $response = $this->postJson(route('auth.login'), $data);
         $response->assertOk();
 
         $this->assertTrue(key_exists('Bearer', $response->json()));
@@ -44,7 +44,7 @@ class LoginTest extends TestCase
             'device_name' => 'phone',
         ];
 
-        $response = $this->postJson('/api/auth/login', $data);
+        $response = $this->postJson(route('auth.login'), $data);
         $response->assertOk();
 
         $this->assertTrue(key_exists('Bearer', $response->json()));
@@ -58,7 +58,7 @@ class LoginTest extends TestCase
             'device_name' => 'desktop',
         ];
 
-        $response = $this->postJson('/api/auth/login', $data);
+        $response = $this->postJson(route('auth.login'), $data);
         $response->assertOk();
 
         $this->assertTrue(key_exists('Bearer', $response->json()));
@@ -72,7 +72,7 @@ class LoginTest extends TestCase
             'device_name' => 'web',
         ];
 
-        $response = $this->postJson('/api/auth/login', $data);
+        $response = $this->postJson(route('auth.login'), $data);
         $response->assertUnprocessable();
     }
 
@@ -84,7 +84,7 @@ class LoginTest extends TestCase
             'device_name' => 'phone',
         ];
 
-        $response = $this->postJson('/api/auth/login', $data);
+        $response = $this->postJson(route('auth.login'), $data);
         $response->assertUnprocessable();
     }
 
@@ -96,7 +96,7 @@ class LoginTest extends TestCase
             'device_name' => 'desktop',
         ];
 
-        $response = $this->postJson('/api/auth/login', $data);
+        $response = $this->postJson(route('auth.login'), $data);
         $response->assertUnprocessable();
     }
 }

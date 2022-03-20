@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Feature;
+namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -59,7 +59,7 @@ class EmailVerificationTest extends TestCase
         Sanctum::actingAs($user);
         $this->assertNull($user->email_verified_at);
 
-        $response = $this->getJson('/api/user');
+        $response = $this->getJson(route('user.info'));
         $response->assertForbidden();
     }
 
@@ -72,7 +72,7 @@ class EmailVerificationTest extends TestCase
             'password_confirmation' => 'password123',
         ];
 
-        $response = $this->postJson('/api/auth/register', $data);
+        $response = $this->postJson(route('auth.register'), $data);
         $response->assertCreated();
 
         return User::find($response->json('id'));
