@@ -36,6 +36,7 @@ class RegistrationTest extends TestCase
             'name' => 'bob',
             'email' => $this->faker->name(),
             'password' => $fakePassword,
+            'password_confirmation' => $fakePassword,
         ];
 
         $response = $this->postJson('/api/auth/register', $data);
