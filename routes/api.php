@@ -34,7 +34,6 @@ Route::prefix('/auth')->group(function () {
         Route::get('/verify/{id}/{hash}', 'verify')->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
         Route::post('/verification-notification', 'resendMail')->middleware(['auth:sanctum', 'throttle:3,1'])->name('verification.send');
     });
-
 });
 
 Route::prefix('/forgot-password')->controller(ResetPasswordController::class)->middleware('guest')->group(function () {
