@@ -449,6 +449,72 @@
                 ]
             }
         },
+        "/api/user/delete": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete account",
+                "description": "Delete currently authenticated user",
+                "operationId": "userDelete",
+                "requestBody": {
+                    "description": "Pass password to confirm deletion",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "Account deleted!"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "password": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "problem_message"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/user": {
             "get": {
                 "tags": [
