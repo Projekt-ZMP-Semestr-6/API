@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\User\ChangeNameController;
 use App\Http\Controllers\User\ChangePasswordController;
+use App\Http\Controllers\User\DeleteAccountController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,4 +43,5 @@ Route::prefix('/user')->middleware(['auth:sanctum', 'verified'])->group(function
     Route::get('/', UserController::class)->name('user.info');
     Route::post('/password', ChangePasswordController::class)->name('user.change.password');
     Route::post('/name', ChangeNameController::class)->name('user.change.name');
+    Route::post('/delete', DeleteAccountController::class)->name('user.delete');
 });
