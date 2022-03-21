@@ -5,10 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Requests\ResetPasswordRequest;
-use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
+use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,8 +19,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::get('/user', fn (Request $request) => $request->user())->middleware(['auth:sanctum', 'verified'])->name('user.info');
 
 Route::prefix('/auth')->group(function () {
     Route::post('/register', RegisterController::class)->name('auth.register');
@@ -39,4 +35,9 @@ Route::prefix('/auth')->group(function () {
 Route::prefix('/forgot-password')->controller(ResetPasswordController::class)->middleware('guest')->group(function () {
     Route::post('/send', 'sendNotification')->name('password.email');
     Route::post('/reset', 'resetPassword')->name('password.update');
+});
+
+Route::prefix('/user')->middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/', UserController::class)->name('user.info');
+    Route::post('/password', ChangePasswordController::class)->name('user.change.password');
 });
