@@ -83,11 +83,9 @@ class ResetPasswordController extends Controller
         switch($status) {
             case Password::RESET_LINK_SENT:
                 return new JsonResponse(['status' => __($status)]);
-                break;
 
             case Password::RESET_THROTTLED:
                 return new JsonResponse(['status' => __($status)], 429);
-                break;
 
             default:
                 return new JsonResponse(['email' => __($status)], 422);
