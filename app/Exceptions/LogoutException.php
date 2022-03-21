@@ -4,11 +4,15 @@ declare(strict_types = 1);
 
 namespace App\Exceptions;
 
-use Exception;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 
-class LogoutException extends Exception
+class LogoutException extends HttpResponseException
 {
-    public function __construct() {
-        parent::__construct('User not log out.', 500);
+    public function __construct()
+    {
+        parent::__construct(
+            new JsonResponse('User not log out.', 500)
+        );
     }
 }
