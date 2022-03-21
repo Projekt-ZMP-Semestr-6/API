@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ForgotPasswordRequest;
-use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -83,11 +83,9 @@ class ResetPasswordController extends Controller
         switch($status) {
             case Password::RESET_LINK_SENT:
                 return new JsonResponse(['status' => __($status)]);
-                break;
 
             case Password::RESET_THROTTLED:
                 return new JsonResponse(['status' => __($status)], 429);
-                break;
 
             default:
                 return new JsonResponse(['email' => __($status)], 422);

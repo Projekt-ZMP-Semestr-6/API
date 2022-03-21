@@ -1,22 +1,20 @@
 <?php
 
-declare(strict_types = 1);
-
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class RegisterRequest extends FormRequest
+class ChangeNameRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
         return true;
     }
@@ -26,12 +24,10 @@ class RegisterRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            'email' => 'email|unique:users,email|required',
             'name' => 'string|min:4|required',
-            'password' => 'string|confirmed|min:8|required'
         ];
     }
 

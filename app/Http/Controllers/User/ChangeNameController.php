@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Exceptions\ChangeNameException;
-use App\Http\Requests\ChangeNameRequest;
+use App\Exceptions\User\ChangeNameException;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\User\ChangeNameRequest;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
