@@ -56,9 +56,7 @@ class DeleteAccountController extends Controller
     public function __invoke(DeleteAccountRequest $request): JsonResponse
     {
         try {
-            $user = $request->user();
-            $user->tokens()->delete();
-            $user->delete();
+            $request->user()->delete();
         } catch (Throwable) {
             throw new UserNotDeletedException;
         }
