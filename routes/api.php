@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\ChangeNameController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -40,4 +41,5 @@ Route::prefix('/forgot-password')->controller(ResetPasswordController::class)->m
 Route::prefix('/user')->middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/', UserController::class)->name('user.info');
     Route::post('/password', ChangePasswordController::class)->name('user.change.password');
+    Route::post('/name', ChangeNameController::class)->name('user.change.name');
 });
