@@ -9,7 +9,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Sanctum\Sanctum;
@@ -17,47 +16,50 @@ use Tests\TestCase;
 
 class EmailVerificationTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
-    public function test_successful_registration_fires_event(): void
+    protected User $user;
+
+    protected function setUp(): void
     {
+        parent::setUp();
+
         Event::fake(Registered::class);
         Event::assertNothingDispatched();
 
-        $this->registerUser();
+        Notification::fake();
+        Notification::assertNothingSent();
 
+        $this->user = $this->registerUser();
+    }
+
+    public function test_successful_registration_fires_event(): void
+    {
         Event::assertDispatched(Registered::class);
     }
 
     public function test_successful_registration_triggers_mail_sending(): void
     {
-        $user = $this->registerUser();
-
-        Notification::fake();
-        Notification::assertNothingSent();
-
-        $event = new Registered($user);
+        $event = new Registered($this->user);
         $listener = new SendEmailVerificationNotification();
+
         $listener->handle($event);
 
-        Notification::assertSentTo($user, VerifyEmail::class);
+        Notification::assertSentTo($this->user, VerifyEmail::class);
     }
 
     public function test_unverified_user_can_not_enter_specific_route(): void
     {
-        $user = $this->registerUser();
-
-        Notification::fake();
-        Notification::assertNothingSent();
-
-        $event = new Registered($user);
+        $event = new Registered($this->user);
         $listener = new SendEmailVerificationNotification();
+
         $listener->handle($event);
 
-        Notification::assertSentTo($user, VerifyEmail::class);
+        Notification::assertSentTo($this->user, VerifyEmail::class);
 
-        Sanctum::actingAs($user);
-        $this->assertNull($user->email_verified_at);
+        Sanctum::actingAs($this->user);
+
+        $this->assertNull($this->user->email_verified_at);
 
         $response = $this->getJson(route('user.info'));
         $response->assertForbidden();
@@ -66,8 +68,8 @@ class EmailVerificationTest extends TestCase
     protected function registerUser(): User
     {
         $data = [
-            'email' => $this->faker->email(),
-            'name' => $this->faker->name(),
+            'email' => 'test@test.com',
+            'name' => 'bob4',
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ];

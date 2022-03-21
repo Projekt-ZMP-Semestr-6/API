@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,12 +15,15 @@ class ChangePasswordTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+    protected string $uri;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        $this->uri = route('user.change.password');
         $this->user = User::factory()->create();
+
         Sanctum::actingAs($this->user);
     }
 
@@ -32,16 +35,22 @@ class ChangePasswordTest extends TestCase
             'new_password_confirmation' => 'password123',
         ];
 
-        $response = $this->postJson(route('user.change.password'), $data);
+        $response = $this->postJson($this->uri, $data);
         $response->assertOk();
 
         $this->user->refresh();
-        $this->assertTrue(Hash::check($data['new_password'], $this->user->password));
+
+        $this->assertTrue(
+            Hash::check(
+                $data['new_password'],
+                $this->user->password
+            )
+        );
     }
 
     public function test_empty_request_is_rejected(): void
     {
-        $response = $this->postJson(route('user.change.password'));
+        $response = $this->postJson($this->uri);
         $response->assertUnprocessable();
     }
 
@@ -53,7 +62,7 @@ class ChangePasswordTest extends TestCase
             'new_password_confirmation' => 'password123',
         ];
 
-        $response = $this->postJson(route('user.change.password'), $data);
+        $response = $this->postJson($this->uri, $data);
         $response->assertUnprocessable();
 
         $data = [
@@ -61,7 +70,7 @@ class ChangePasswordTest extends TestCase
             'new_password' => 'no_confirmation',
         ];
 
-        $response = $this->postJson(route('user.change.password'), $data);
+        $response = $this->postJson($this->uri, $data);
         $response->assertUnprocessable();
 
         $data = [
@@ -69,7 +78,7 @@ class ChangePasswordTest extends TestCase
             'new_password_confirmation' => 'no_old_password',
         ];
 
-        $response = $this->postJson(route('user.change.password'), $data);
+        $response = $this->postJson($this->uri, $data);
         $response->assertUnprocessable();
     }
 }
