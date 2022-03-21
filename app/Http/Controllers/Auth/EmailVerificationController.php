@@ -26,7 +26,7 @@ class EmailVerificationController extends Controller
 
     public function notice(): JsonResponse
     {
-        return new JsonResponse('First, you need to verify email address.');
+        return new JsonResponse('First, you need to verify email address.', 422);
     }
 
     public function verify(EmailVerificationRequest $request): void

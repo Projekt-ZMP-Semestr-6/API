@@ -7,12 +7,12 @@ namespace App\Exceptions;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class LogoutException extends HttpResponseException
+class UserNotFoundException extends HttpResponseException
 {
     public function __construct()
     {
         parent::__construct(
-            new JsonResponse('User not log out.', 500)
+            new JsonResponse('User not found.', 500)
         );
     }
 }

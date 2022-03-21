@@ -299,6 +299,127 @@
                     }
                 }
             }
+        },
+        "/api/user/password": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Change password",
+                "description": "Change user's password",
+                "operationId": "userPassword",
+                "requestBody": {
+                    "description": "Pass old and new password",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "old_password",
+                                    "new_password",
+                                    "new_password_confirmation"
+                                ],
+                                "properties": {
+                                    "old_password": {
+                                        "type": "password",
+                                        "example": "password123"
+                                    },
+                                    "new_password": {
+                                        "type": "password",
+                                        "example": "password12345"
+                                    },
+                                    "new_password_confirmation": {
+                                        "type": "password",
+                                        "example": "password12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "Password updated!"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "attribiute_name": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "problem_message"
+                                            }
+                                        },
+                                        "other_attribiute_name": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "problem_message"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user info",
+                "description": "Get info about currently authenticated user",
+                "operationId": "userInfo",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "First, you need to verify email address."
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
