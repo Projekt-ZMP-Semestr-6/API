@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Exceptions;
+declare(strict_types = 1);
+
+namespace App\Exceptions\Auth;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class ChangeNameException extends HttpResponseException
+class LogoutException extends HttpResponseException
 {
     public function __construct()
     {
         parent::__construct(
-            new JsonResponse('Name not updated', 500)
+            new JsonResponse('User not log out.', 500)
         );
     }
 }

@@ -5,9 +5,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\ChangeNameController;
-use App\Http\Controllers\ChangePasswordController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\User\ChangeNameController;
+use App\Http\Controllers\User\ChangePasswordController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*

@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Exceptions;
+declare(strict_types = 1);
+
+namespace App\Exceptions\Auth;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class ChangePasswordException extends HttpResponseException
+class UserCreationException extends HttpResponseException
 {
     public function __construct()
     {
         parent::__construct(
-            new JsonResponse('Password not updated', 500)
+            new JsonResponse('User not created.', 500)
         );
     }
 }
