@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\UserNotFoundException;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -38,6 +39,6 @@ class UserController extends Controller
 
         $user ?? throw new UserNotFoundException;
 
-        return new JsonResponse($user);
+        return new JsonResponse(new UserResource($user));
     }
 }

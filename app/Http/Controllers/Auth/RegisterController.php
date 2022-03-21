@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Auth;
 use App\Exceptions\UserCreationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
@@ -95,6 +96,6 @@ class RegisterController extends Controller
 
         event(new Registered($user));
 
-        return new JsonResponse($user, 201);
+        return new JsonResponse(new UserResource($user), 201);
     }
 }

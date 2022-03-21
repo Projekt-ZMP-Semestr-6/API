@@ -548,25 +548,17 @@
             },
             "User": {
                 "properties": {
-                    "email": {
-                        "type": "email",
-                        "example": "test@test.com"
+                    "id": {
+                        "type": "uuid",
+                        "example": "95c0fbe0-2ae6-4a99-a41c-14b0a68cf057"
                     },
                     "name": {
                         "type": "string",
                         "example": "Greg"
                     },
-                    "id": {
-                        "type": "uuid",
-                        "example": "95c0fbe0-2ae6-4a99-a41c-14b0a68cf057"
-                    },
-                    "updated_at": {
-                        "type": "date-time",
-                        "example": "2022-03-06T10:02:00.000000Z"
-                    },
-                    "created_at": {
-                        "type": "date-time",
-                        "example": "2022-03-06T10:02:00.000000Z"
+                    "email": {
+                        "type": "email",
+                        "example": "test@test.com"
                     }
                 },
                 "type": "object"
