@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,12 +14,15 @@ class ChangeNameTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+    protected string $uri;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        $this->uri = route('user.change.name');
         $this->user = User::factory()->create();
+
         Sanctum::actingAs($this->user);
     }
 
@@ -29,16 +32,20 @@ class ChangeNameTest extends TestCase
             'name' => 'Bob4',
         ];
 
-        $response = $this->postJson(route('user.change.name'), $data);
+        $response = $this->postJson($this->uri, $data);
         $response->assertOk();
 
         $this->user->refresh();
-        $this->assertSame($data['name'], $this->user->name);
+
+        $this->assertSame(
+            $data['name'],
+            $this->user->name
+        );
     }
 
     public function test_empty_request_is_rejected(): void
     {
-        $response = $this->postJson(route('user.change.name'));
+        $response = $this->postJson($this->uri);
         $response->assertUnprocessable();
     }
 
@@ -48,7 +55,7 @@ class ChangeNameTest extends TestCase
             'name' => 'bob',
         ];
 
-        $response = $this->postJson(route('user.change.name', $data));
+        $response = $this->postJson($this->uri, $data);
         $response->assertUnprocessable();
     }
 }

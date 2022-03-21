@@ -15,20 +15,25 @@ class LogoutTest extends TestCase
 
     protected PersonalAccessToken $token;
     protected User $user;
+    protected string $uri;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        $this->uri = route('auth.logout');
         $this->user = User::factory()->createOne();
-
     }
 
     public function test_user_can_logout_from_website(): void
     {
         $tokenWeb = $this->loginUser('web');
 
-        $response = $this->getJson(route('auth.logout'), ['Authorization' => "Bearer {$tokenWeb}"]);
+        $data = [
+            'Authorization' => "Bearer {$tokenWeb}"
+        ];
+
+        $response = $this->getJson($this->uri, $data);
         $response->assertOk();
     }
 
@@ -36,7 +41,11 @@ class LogoutTest extends TestCase
     {
         $tokenWeb = $this->loginUser('phone');
 
-        $response = $this->getJson(route('auth.logout'), ['Authorization' => "Bearer {$tokenWeb}"]);
+        $data = [
+            'Authorization' => "Bearer {$tokenWeb}"
+        ];
+
+        $response = $this->getJson($this->uri, $data);
         $response->assertOk();
     }
 
@@ -44,7 +53,11 @@ class LogoutTest extends TestCase
     {
         $tokenWeb = $this->loginUser('desktop');
 
-        $response = $this->getJson(route('auth.logout'), ['Authorization' => "Bearer {$tokenWeb}"]);
+        $data = [
+            'Authorization' => "Bearer {$tokenWeb}"
+        ];
+
+        $response = $this->getJson($this->uri, $data);
         $response->assertOk();
     }
 
@@ -56,7 +69,11 @@ class LogoutTest extends TestCase
             'device_name' => $deviceName,
         ];
 
-        $response = $this->postJson(route('auth.login'), $data);
+        $response = $this->postJson(
+            route('auth.login'),
+            $data
+        );
+
         $response->assertOk();
 
         return $response->json('Bearer');

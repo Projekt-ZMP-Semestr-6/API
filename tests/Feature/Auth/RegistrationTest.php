@@ -12,62 +12,69 @@ class RegistrationTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    protected string $uri;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->uri = route('auth.register');
+    }
+
     public function test_user_can_register(): void
     {
-        $fakePassword = $this->faker->password(8);
         $data = [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->email(),
-            'password' => $fakePassword,
-            'password_confirmation' => $fakePassword,
+            'name' => 'bob4',
+            'email' => 'test@test.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
         ];
 
-        $response = $this->postJson(route('auth.register'), $data);
+        $response = $this->postJson($this->uri, $data);
         $response->assertCreated();
 
-        $createdUser = $response->json();
-        $this->assertDatabaseHas('users',  $createdUser);
+        $this->assertDatabaseHas(
+            'users',
+            $response->json()
+        );
     }
 
     public function test_user_can_not_register_with_invalid_name(): void
     {
-        $fakePassword = $this->faker->password(8);
         $data = [
             'name' => 'bob',
-            'email' => $this->faker->name(),
-            'password' => $fakePassword,
-            'password_confirmation' => $fakePassword,
+            'email' => 'test@test.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
         ];
 
-        $response = $this->postJson(route('auth.register'), $data);
+        $response = $this->postJson($this->uri, $data);
         $response->assertUnprocessable();
     }
 
     public function test_user_can_not_register_with_invalid_email(): void
     {
-        $fakePassword = $this->faker->password(8);
         $data = [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->name(),
-            'password' => $fakePassword,
-            'password_confirmation' => $fakePassword,
+            'name' => 'bob4',
+            'email' => 'invalid_email',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
         ];
 
-        $response = $this->postJson(route('auth.register'), $data);
+        $response = $this->postJson($this->uri, $data);
         $response->assertUnprocessable();
     }
 
     public function test_user_can_not_register_with_invalid_password(): void
     {
-        $fakePassword = $this->faker->password(4,7);
         $data = [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->email(),
-            'password' => $fakePassword,
-            'password_confirmation' => $fakePassword,
+            'name' => 'bob4',
+            'email' => 'test@test.com',
+            'password' => 'invalid',
+            'password_confirmation' => 'invalid',
         ];
 
-        $response = $this->postJson(route('auth.register'), $data);
+        $response = $this->postJson($this->uri, $data);
         $response->assertUnprocessable();
 
 
