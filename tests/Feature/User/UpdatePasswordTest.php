@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class ChangePasswordTest extends TestCase
+class UpdatePasswordTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -21,7 +21,7 @@ class ChangePasswordTest extends TestCase
     {
         parent::setUp();
 
-        $this->uri = route('user.change.password');
+        $this->uri = route('user.update.password');
         $this->user = User::factory()->create();
 
         Sanctum::actingAs($this->user);
@@ -35,7 +35,7 @@ class ChangePasswordTest extends TestCase
             'new_password_confirmation' => 'password123',
         ];
 
-        $response = $this->postJson($this->uri, $data);
+        $response = $this->putJson($this->uri, $data);
         $response->assertOk();
 
         $this->user->refresh();
@@ -50,7 +50,7 @@ class ChangePasswordTest extends TestCase
 
     public function test_empty_request_is_rejected(): void
     {
-        $response = $this->postJson($this->uri);
+        $response = $this->putJson($this->uri);
         $response->assertUnprocessable();
     }
 
@@ -62,7 +62,7 @@ class ChangePasswordTest extends TestCase
             'new_password_confirmation' => 'password123',
         ];
 
-        $response = $this->postJson($this->uri, $data);
+        $response = $this->putJson($this->uri, $data);
         $response->assertUnprocessable();
 
         $data = [
@@ -70,7 +70,7 @@ class ChangePasswordTest extends TestCase
             'new_password' => 'no_confirmation',
         ];
 
-        $response = $this->postJson($this->uri, $data);
+        $response = $this->putJson($this->uri, $data);
         $response->assertUnprocessable();
 
         $data = [
@@ -78,7 +78,7 @@ class ChangePasswordTest extends TestCase
             'new_password_confirmation' => 'no_old_password',
         ];
 
-        $response = $this->postJson($this->uri, $data);
+        $response = $this->putJson($this->uri, $data);
         $response->assertUnprocessable();
     }
 }
