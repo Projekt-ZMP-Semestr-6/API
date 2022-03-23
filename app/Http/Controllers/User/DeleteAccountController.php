@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Exceptions\UserNotDeletedException;
+use App\Exceptions\User\UserNotDeletedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\DeleteAccountRequest;
 use Illuminate\Http\JsonResponse;

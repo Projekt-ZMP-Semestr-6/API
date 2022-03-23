@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Exceptions;
+namespace App\Exceptions\User;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
