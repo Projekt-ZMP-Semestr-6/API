@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Exceptions\User\ChangeEmailException;
+use App\Exceptions\User\EmailNotUpdatedException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\ChangeEmailRequest;
+use App\Http\Requests\User\UpdateEmailRequest;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 /**
  * @OA\Put(
  * path="/api/user/email",
- * summary="Change email",
- * description="Change user's email",
+ * summary="Update email",
+ * description="Update user's email",
  * operationId="userEmail",
  * tags={"User"},
  * security={{"sanctum": {}}},
@@ -55,9 +55,9 @@ use Throwable;
  *      ),
  * ))
  */
-class ChangeEmailController extends Controller
+class UpdateEmailController extends Controller
 {
-    public function __invoke(ChangeEmailRequest $request): JsonResponse
+    public function __invoke(UpdateEmailRequest $request): JsonResponse
     {
         $newEmail = $request->validated('email');
         $user = $request->user('sanctum');
@@ -66,7 +66,7 @@ class ChangeEmailController extends Controller
             $user->email = $newEmail;
             $user->save();
         } catch (Throwable) {
-            throw new ChangeEmailException;
+            throw new EmailNotUpdatedException;
         }
 
         return new JsonResponse('Email updated!');
