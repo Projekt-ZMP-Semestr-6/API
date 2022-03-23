@@ -515,6 +515,77 @@
                 ]
             }
         },
+        "/api/user/email": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update email",
+                "description": "Update user's email",
+                "operationId": "userEmail",
+                "requestBody": {
+                    "description": "Pass new email and password to confirm the change",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password",
+                                    "email"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "password",
+                                        "example": "password123"
+                                    },
+                                    "email": {
+                                        "type": "email",
+                                        "example": "new@email.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "Email updated!"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "attribiute_name": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "problem_message"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/user": {
             "get": {
                 "tags": [
