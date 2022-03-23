@@ -34,7 +34,7 @@ class DeleteAccountTest extends TestCase
             'password' => 'password'
         ];
 
-        $response = $this->postJson($this->uri, $data);
+        $response = $this->deleteJson($this->uri, $data);
         $response->assertOk();
 
         $this->assertSame('Account deleted!', $response->json());
@@ -43,7 +43,7 @@ class DeleteAccountTest extends TestCase
 
     public function test_empty_request_is_rejected(): void
     {
-        $response = $this->postJson($this->uri);
+        $response = $this->deleteJson($this->uri);
         $response->assertUnprocessable();
 
         $this->assertModelExists($this->user);
@@ -55,7 +55,7 @@ class DeleteAccountTest extends TestCase
             'password' => 'wrong_password',
         ];
 
-        $response = $this->postJson($this->uri, $data);
+        $response = $this->deleteJson($this->uri, $data);
         $response->assertUnprocessable();
 
         $this->assertModelExists($this->user);

@@ -384,7 +384,7 @@
             }
         },
         "/api/user/delete": {
-            "post": {
+            "delete": {
                 "tags": [
                     "User"
                 ],

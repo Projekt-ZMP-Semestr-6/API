@@ -47,5 +47,5 @@ Route::prefix('/user')->middleware(['auth:sanctum', 'verified'])->group(function
     Route::put('/name', UpdateNameController::class)->name('user.update.name');
     Route::put('/email', UpdateEmailController::class)->name('user.update.email');
 
-    Route::post('/delete', DeleteAccountController::class)->name('user.delete');
+    Route::delete('/delete', DeleteAccountController::class)->name('user.delete');
 });

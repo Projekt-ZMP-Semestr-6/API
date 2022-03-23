@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Throwable;
 
 /**
- * @OA\Post(
+ * @OA\Delete(
  * path="/api/user/delete",
  * summary="Delete account",
  * description="Delete currently authenticated user",
@@ -48,8 +48,7 @@ use Throwable;
  *              ),
  *          ),
  *      ),
- * ),
- * )
+ * ))
  */
 class DeleteAccountController extends Controller
 {
