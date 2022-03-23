@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Exceptions\User\ChangePasswordException;
+use App\Exceptions\User\PasswordNotUpdatedException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\ChangePasswordRequest;
+use App\Http\Requests\User\UpdatePasswordRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Throwable;
 
 /**
- * @OA\Post(
+ * @OA\Put(
  * path="/api/user/password",
- * summary="Change password",
- * description="Change user's password",
+ * summary="Update password",
+ * description="Update user's password",
  * operationId="userPassword",
  * tags={"User"},
  * security={{"sanctum": {}}},
@@ -70,9 +70,9 @@ use Throwable;
  * ),
  * )
  */
-class ChangePasswordController extends Controller
+class UpdatePasswordController extends Controller
 {
-    public function __invoke(ChangePasswordRequest $request): JsonResponse
+    public function __invoke(UpdatePasswordRequest $request): JsonResponse
     {
         $newPassword = $request->validated('new_password');
         $user = $request->user();
@@ -81,7 +81,7 @@ class ChangePasswordController extends Controller
             $user->password = Hash::make($newPassword);
             $user->save();
         } catch (Throwable) {
-            throw new ChangePasswordException;
+            throw new PasswordNotUpdatedException;
         }
 
         return new JsonResponse('Password updated!');
