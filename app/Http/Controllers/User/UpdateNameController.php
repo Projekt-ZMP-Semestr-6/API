@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Exceptions\User\ChangeNameException;
+use App\Exceptions\User\NameNotUpdatedException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\ChangeNameRequest;
+use App\Http\Requests\User\UpdateNameRequest;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 /**
- * @OA\Post(
+ * @OA\Put(
  * path="/api/user/name",
- * summary="Change name",
- * description="Change user's name",
+ * summary="Update name",
+ * description="Update user's name",
  * operationId="userName",
  * tags={"User"},
  * security={{"sanctum": {}}},
@@ -51,9 +51,9 @@ use Throwable;
  * ),
  * )
  */
-class ChangeNameController extends Controller
+class UpdateNameController extends Controller
 {
-    public function __invoke(ChangeNameRequest $request): JsonResponse
+    public function __invoke(UpdateNameRequest $request): JsonResponse
     {
         $newName = $request->validated('name');
         $user = $request->user('sanctum');
@@ -62,7 +62,7 @@ class ChangeNameController extends Controller
             $user->name = $newName;
             $user->save();
         } catch (Throwable) {
-            throw new ChangeNameException;
+            throw new NameNotUpdatedException;
         }
 
         return new JsonResponse('Name updated!');

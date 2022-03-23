@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class ChangeNameTest extends TestCase
+class UpdateNameTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -20,7 +20,7 @@ class ChangeNameTest extends TestCase
     {
         parent::setUp();
 
-        $this->uri = route('user.change.name');
+        $this->uri = route('user.update.name');
         $this->user = User::factory()->create();
 
         Sanctum::actingAs($this->user);
@@ -32,7 +32,7 @@ class ChangeNameTest extends TestCase
             'name' => 'Bob4',
         ];
 
-        $response = $this->postJson($this->uri, $data);
+        $response = $this->putJson($this->uri, $data);
         $response->assertOk();
 
         $this->user->refresh();
@@ -45,7 +45,7 @@ class ChangeNameTest extends TestCase
 
     public function test_empty_request_is_rejected(): void
     {
-        $response = $this->postJson($this->uri);
+        $response = $this->putJson($this->uri);
         $response->assertUnprocessable();
     }
 
@@ -55,7 +55,7 @@ class ChangeNameTest extends TestCase
             'name' => 'bob',
         ];
 
-        $response = $this->postJson($this->uri, $data);
+        $response = $this->putJson($this->uri, $data);
         $response->assertUnprocessable();
     }
 }
