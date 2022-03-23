@@ -7,7 +7,7 @@ namespace App\Exceptions\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class ChangeEmailException extends HttpResponseException
+class EmailNotUpdatedException extends HttpResponseException
 {
     public function __construct()
     {
