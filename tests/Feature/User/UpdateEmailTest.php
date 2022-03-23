@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class ChangeEmailTest extends TestCase
+class UpdateEmailTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -20,7 +20,7 @@ class ChangeEmailTest extends TestCase
     {
         parent::setUp();
 
-        $this->uri = route('user.change.email');
+        $this->uri = route('user.update.email');
         $this->user = User::factory()->create();
 
         Sanctum::actingAs($this->user);
