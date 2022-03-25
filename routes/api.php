@@ -23,41 +23,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('auth')
-    ->group(function () {
-        Route::post('register', RegisterController::class)->name('auth.register');
-        Route::post('login', LoginController::class)->name('auth.login');
-        Route::get('logout', LogoutController::class)->name('auth.logout')->middleware('auth:sanctum');
+Route::prefix('/auth')->group(function () {
+    Route::post('/register', RegisterController::class)->name('auth.register');
+    Route::post('/login', LoginController::class)->name('auth.login');
+    Route::get('/logout', LogoutController::class)->middleware('auth:sanctum')->name('auth.logout');
 
-        Route::controller(EmailVerificationController::class)
-            ->middleware('auth:sanctum')
-            ->prefix('email')
-            ->as('verification.')
-            ->group(function () {
-                Route::get('verify', 'notice')->name('notice');
-                Route::get('verify/{id}/{hash}', 'verify')->name('verify')->middleware('signed');
-                Route::post('verification-notification', 'resendMail')->name('send')->middleware('throttle:3,1');
-            });
+    Route::prefix('/email')->controller(EmailVerificationController::class)->group(function () {
+        Route::get('/verify', 'notice')->middleware('auth:sanctum')->name('verification.notice');
+        Route::get('/verify/{id}/{hash}', 'verify')->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+        Route::post('/verification-notification', 'resendMail')->middleware(['auth:sanctum', 'throttle:3,1'])->name('verification.send');
     });
+});
 
-Route::controller(ResetPasswordController::class)
-    ->middleware('guest')
-    ->prefix('forgot-password')
-    ->as('password.')
-    ->group(function () {
-        Route::post('send', 'sendNotification')->name('email');
-        Route::post('reset', 'resetPassword')->name('update');
-    });
+Route::prefix('/forgot-password')->controller(ResetPasswordController::class)->middleware('guest')->group(function () {
+    Route::post('/send', 'sendNotification')->name('password.email');
+    Route::post('/reset', 'resetPassword')->name('password.update');
+});
 
-Route::middleware(['auth:sanctum', 'verified'])
-    ->prefix('user')
-    ->as('user.')
-    ->group(function () {
-        Route::get('/', UserController::class)->name('info');
+Route::prefix('/user')->middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/', UserController::class)->name('user.info');
 
-        Route::put('password', UpdatePasswordController::class)->name('update.password');
-        Route::put('name', UpdateNameController::class)->name('update.name');
-        Route::put('email', UpdateEmailController::class)->name('update.email');
+    Route::put('/password', UpdatePasswordController::class)->name('user.update.password');
+    Route::put('/name', UpdateNameController::class)->name('user.update.name');
+    Route::put('/email', UpdateEmailController::class)->name('user.update.email');
 
-        Route::delete('delete', DeleteAccountController::class)->name('delete');
+    Route::delete('/delete', DeleteAccountController::class)->name('user.delete');
 });
