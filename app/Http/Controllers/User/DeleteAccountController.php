@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Http\Controllers\User;
 
 use App\Exceptions\User\UserNotDeletedException;
@@ -55,7 +57,7 @@ class DeleteAccountController extends Controller
     public function __invoke(DeleteAccountRequest $request): JsonResponse
     {
         try {
-            $request->user()->delete();
+            $request->user('sanctum')->delete();
         } catch (Throwable) {
             throw new UserNotDeletedException;
         }

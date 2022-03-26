@@ -69,8 +69,7 @@ use Illuminate\Support\Str;
  *              example="problem_message",
  *          ),
  *      ),
- * ),
- * )
+ * ))
  */
 class ResetPasswordController extends Controller
 {
@@ -107,7 +106,7 @@ class ResetPasswordController extends Controller
         $status = Password::reset($validated, $callback);
 
         return $status === Password::PASSWORD_RESET
-                    ?new JsonResponse(['status' => __($status)])
-                    :new JsonResponse(['status' => __($status)], 422);
+                    ? new JsonResponse(['status' => __($status)])
+                    : new JsonResponse(['status' => __($status)], 422);
     }
 }

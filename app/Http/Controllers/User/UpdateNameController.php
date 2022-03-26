@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Http\Controllers\User;
 
 use App\Exceptions\User\NameNotUpdatedException;
@@ -48,8 +50,7 @@ use Throwable;
  *              ),
  *          ),
  *      ),
- * ),
- * )
+ * ))
  */
 class UpdateNameController extends Controller
 {

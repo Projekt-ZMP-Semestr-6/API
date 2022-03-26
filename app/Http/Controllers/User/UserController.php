@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Http\Controllers\User;
 
 use App\Exceptions\User\UserNotFoundException;
@@ -37,9 +39,10 @@ class UserController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         $user = $request->user('sanctum');
-
         $user ?? throw new UserNotFoundException;
 
-        return new JsonResponse(new UserResource($user));
+        $user = new UserResource($user);
+
+        return new JsonResponse($user);
     }
 }
