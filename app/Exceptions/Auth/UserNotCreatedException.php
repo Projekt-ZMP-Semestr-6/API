@@ -7,12 +7,12 @@ namespace App\Exceptions\Auth;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class LoginException extends HttpResponseException
+class UserNotCreatedException extends HttpResponseException
 {
     public function __construct()
     {
         parent::__construct(
-            new JsonResponse('Incorrect credentials', 422)
+            new JsonResponse('User not created.', 500)
         );
     }
 }

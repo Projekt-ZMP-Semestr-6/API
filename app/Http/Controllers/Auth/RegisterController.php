@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\Auth\UserCreationException;
+use App\Exceptions\Auth\UserNotCreatedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
@@ -90,7 +90,7 @@ class RegisterController extends Controller
         try {
             $user = User::create($validated);
         } catch(Throwable) {
-            throw new UserCreationException();
+            throw new UserNotCreatedException();
         }
 
         $user = new UserResource($user);

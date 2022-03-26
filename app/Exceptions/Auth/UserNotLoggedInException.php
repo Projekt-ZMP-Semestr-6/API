@@ -7,12 +7,12 @@ namespace App\Exceptions\Auth;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
-class LogoutException extends HttpResponseException
+class UserNotLoggedInException extends HttpResponseException
 {
     public function __construct()
     {
         parent::__construct(
-            new JsonResponse('User not log out.', 500)
+            new JsonResponse('Incorrect credentials.', 422)
         );
     }
 }

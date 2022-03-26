@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\Auth\LoginException;
+use App\Exceptions\Auth\UserNotLoggedInException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
@@ -94,7 +94,7 @@ class LoginController extends Controller
         $user = User::whereEmail($validated['email'])->first();
 
         if(!$user || !Hash::check($validated['password'], $user->password)) {
-            throw new LoginException();
+            throw new UserNotLoggedInException();
         }
 
         $user->tokens->where('name', $deviceName)->first()?->delete();

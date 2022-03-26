@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\Auth\LogoutException;
+use App\Exceptions\Auth\UserNotLoggedOutException;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class LogoutController extends Controller
         try {
             $token->delete();
         } catch(Throwable) {
-            throw new LogoutException();
+            throw new UserNotLoggedOutException();
         }
 
         return new JsonResponse();
