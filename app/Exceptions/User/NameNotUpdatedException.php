@@ -12,7 +12,7 @@ class NameNotUpdatedException extends HttpResponseException
     public function __construct()
     {
         parent::__construct(
-            new JsonResponse('Name not updated', 500)
+            new JsonResponse('Name not updated!', 500)
         );
     }
 }

@@ -76,7 +76,5 @@ class RegistrationTest extends TestCase
 
         $response = $this->postJson($this->uri, $data);
         $response->assertUnprocessable();
-
-
     }
 }

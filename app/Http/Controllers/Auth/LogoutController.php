@@ -4,11 +4,10 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\Auth\LogoutException;
+use App\Exceptions\Auth\UserNotLoggedOutException;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Laravel\Sanctum\PersonalAccessToken;
 use Throwable;
 
 /**
@@ -26,14 +25,14 @@ class LogoutController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
     {
-        $token = $request->bearerToken();
+        $token = $request->user()->currentAccessToken();
 
         try {
-            PersonalAccessToken::findToken($token)->delete();
+            $token->delete();
         } catch(Throwable) {
-            throw new LogoutException();
+            throw new UserNotLoggedOutException();
         }
 
-        return new JsonResponse(null, 200);
+        return new JsonResponse();
     }
 }

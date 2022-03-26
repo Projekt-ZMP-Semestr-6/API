@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\ForgotPasswordRequest;
+use App\Http\Requests\Auth\SendResetPasswordNotificationRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
@@ -69,12 +69,11 @@ use Illuminate\Support\Str;
  *              example="problem_message",
  *          ),
  *      ),
- * ),
- * )
+ * ))
  */
 class ResetPasswordController extends Controller
 {
-    public function sendNotification(ForgotPasswordRequest $request): JsonResponse
+    public function sendNotification(SendResetPasswordNotificationRequest $request): JsonResponse
     {
         $status = Password::sendResetLink(
             $request->safe()->only('email')
@@ -107,7 +106,7 @@ class ResetPasswordController extends Controller
         $status = Password::reset($validated, $callback);
 
         return $status === Password::PASSWORD_RESET
-                    ?new JsonResponse(['status' => __($status)])
-                    :new JsonResponse(['status' => __($status)], 422);
+                    ? new JsonResponse(['status' => __($status)])
+                    : new JsonResponse(['status' => __($status)], 422);
     }
 }

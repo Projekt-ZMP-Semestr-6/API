@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Http\Controllers\User;
 
 use App\Exceptions\User\PasswordNotUpdatedException;
@@ -67,15 +69,14 @@ use Throwable;
  *              ),
  *          ),
  *      ),
- * ),
- * )
+ * ))
  */
 class UpdatePasswordController extends Controller
 {
     public function __invoke(UpdatePasswordRequest $request): JsonResponse
     {
         $newPassword = $request->validated('new_password');
-        $user = $request->user();
+        $user = $request->user('sanctum');
 
         try {
             $user->password = Hash::make($newPassword);
