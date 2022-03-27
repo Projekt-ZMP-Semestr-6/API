@@ -36,7 +36,7 @@ Route::prefix('auth')
             ->group(function () {
                 Route::get('verify', 'notice')->name('notice');
                 Route::get('verify/{id}/{hash}', 'verify')->name('verify')->middleware('signed');
-                Route::post('verification-notification', 'resendMail')->name('send')->middleware('throttle:3,1');
+                Route::post('verification-notification', 'resendMail')->name('send')->middleware('throttle:6,1');
             });
     });
 
