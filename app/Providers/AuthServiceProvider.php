@@ -39,11 +39,13 @@ class AuthServiceProvider extends ServiceProvider
                 ]
             );
 
-            return env('FRONTEND_URL') . '?verify_url=' . urlencode($verifyUrl);
+            $encodedVerifyUrl = urlencode($verifyUrl);
+
+            return env('FRONTEND_URL')."/verify-email?verify_url={$encodedVerifyUrl}";
         });
 
         ResetPassword::createUrlUsing(function ($user, string $token) {
-            return env('FRONTEND_URL').'/reset-password?token='.$token;
+            return env('FRONTEND_URL') . "/reset-password?token={$token}&email={$user->email}";
         });
     }
 }
