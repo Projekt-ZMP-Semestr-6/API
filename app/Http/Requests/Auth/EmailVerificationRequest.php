@@ -5,17 +5,11 @@ declare(strict_types = 1);
 namespace App\Http\Requests\Auth;
 
 use App\Models\User;
-use Closure;
 use Illuminate\Foundation\Auth\EmailVerificationRequest as OriginalEmailVerificationRequest;
 
 class EmailVerificationRequest extends OriginalEmailVerificationRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         if (! auth()->check()) {
             $this->resolveUser((string) $this->route('id'));
@@ -34,7 +28,7 @@ class EmailVerificationRequest extends OriginalEmailVerificationRequest
         return true;
     }
 
-    protected function resolveUser(string $id)
+    protected function resolveUser(string $id): void
     {
         $this->setUserResolver(function () use ($id) {
             return User::findOrFail($id);
