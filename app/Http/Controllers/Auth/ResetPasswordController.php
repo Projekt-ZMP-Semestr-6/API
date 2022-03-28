@@ -26,8 +26,22 @@ use Illuminate\Support\Str;
  *          @OA\Property(property="email", type="email", example="test@test.com")
  *      ),
  * ),
- * @OA\Response(response=200, description="OK", @OA\Property(property="status", type="string", example="We have emailed your password reset link!")),
- * @OA\Response(response=429, description="Too Many Requests", @OA\Property(property="status", type="string", example="Please wait before retrying.")),
+ * @OA\Response(
+ *      response=200,
+ *      description="OK",
+ *      @OA\Property(
+ *          property="status",
+ *          type="string",
+ *          example="We have emailed your password reset link!"
+ * )),
+ * @OA\Response(
+ *      response=429,
+ *      description="Too Many Requests",
+ *      @OA\Property(
+ *          property="status",
+ *          type="string",
+ *          example="Please wait before retrying."
+ * )),
  * @OA\Response(
  *      response=422,
  *      description="Unprocessable Content",
@@ -39,8 +53,7 @@ use Illuminate\Support\Str;
  *              example="problem_message",
  *          ),
  *      ),
- * )
- * )
+ * )),
  *
  * @OA\Post(
  * path="/api/forgot-password/reset",
@@ -57,7 +70,14 @@ use Illuminate\Support\Str;
  *          @OA\Property(property="password_confirmation", type="password", example="password123"),
  *      ),
  * ),
- * @OA\Response(response=200, description="OK", @OA\Property(property="status", type="string", example="Your password has been reset!")),
+ * @OA\Response(
+ *      response=200,
+ *      description="OK",
+ *      @OA\Property(
+ *          property="status",
+ *          type="string",
+ *           example="Your password has been reset!"
+ * )),
  * @OA\Response(
  *      response=422,
  *      description="Unprocessable Content",

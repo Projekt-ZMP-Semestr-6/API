@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\Hash;
  *          oneOf={
  *              @OA\Schema(ref="#/components/schemas/attribiuteProblem"),
  *              @OA\Schema(ref="#/components/schemas/incorrectCredentials"),
+ *              @OA\Schema(ref="#/components/schemas/verifyEmail"),
  *          },
  *      )
  * ),
@@ -82,7 +83,13 @@ use Illuminate\Support\Facades\Hash;
  *          type="string",
  *          example="problem_message",
  *      ),
- * ))
+ * )),
+ *
+ * @OA\Schema(
+ * schema="verifyEmail",
+ * type="string",
+ * example="Email not verified."
+ * )
  */
 class LoginController extends Controller
 {
