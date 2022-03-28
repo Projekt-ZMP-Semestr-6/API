@@ -4,12 +4,11 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\Auth\EmailNotVerifiedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\EmailVerificationRequest;
 use App\Http\Requests\Auth\ResendEmailVerificationNotificationRequest;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * @OA\Post(
@@ -91,9 +90,9 @@ use Illuminate\Http\Request;
 class EmailVerificationController extends Controller
 {
 
-    public function notice(): JsonResponse
+    public function notice(): void
     {
-        return new JsonResponse('First, you need to verify email address.', 422);
+        throw new EmailNotVerifiedException;
     }
 
     public function verify(EmailVerificationRequest $request): JsonResponse
