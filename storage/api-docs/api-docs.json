@@ -162,6 +162,9 @@
                                         },
                                         {
                                             "$ref": "#/components/schemas/incorrectCredentials"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/verifyEmail"
                                         }
                                     ]
                                 }
@@ -676,10 +679,7 @@
                         "description": "Unprocessable Content",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "string"
-                                },
-                                "example": "First, you need to verify email address."
+                                "schema": {}
                             }
                         }
                     }
@@ -749,6 +749,10 @@
                     }
                 },
                 "type": "object"
+            },
+            "verifyEmail": {
+                "type": "string",
+                "example": "Email not verified."
             },
             "User": {
                 "properties": {

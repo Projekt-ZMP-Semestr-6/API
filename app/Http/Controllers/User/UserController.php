@@ -29,8 +29,7 @@ use Illuminate\Http\Request;
  *      response=422,
  *      description="Unprocessable Content",
  *      @OA\JsonContent(
- *          type="string",
- *          example="First, you need to verify email address."
+ *          @OA\Schema(ref="#/components/schemas/verifyEmail")
  *      ),
  * ))
  */
