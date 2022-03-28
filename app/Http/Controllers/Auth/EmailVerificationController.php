@@ -5,7 +5,8 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Requests\Auth\EmailVerificationRequest;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,6 @@ use Illuminate\Http\Request;
  * description="Resend email verification notification",
  * operationId="resendEmailVerification",
  * tags={"Email verification"},
- * security={{"sanctum": {}}},
  * @OA\Response(response=200, description="OK", @OA\JsonContent(type="string", example="Mail sent!")),
  * @OA\Response(response=429, description="Too Many Requests")),
  * ),
@@ -27,7 +27,6 @@ use Illuminate\Http\Request;
  * description="Verify user's email",
  * operationId="verifyEmail",
  * tags={"Email verification"},
- * security={{"sanctum": {}}},
  * @OA\Parameter(
  *      name="id",
  *      in="path",
@@ -73,11 +72,11 @@ class EmailVerificationController extends Controller
         return new JsonResponse('First, you need to verify email address.', 422);
     }
 
-    public function verify(EmailVerificationRequest $request): void
+    public function verify(EmailVerificationRequest $request): JsonResponse
     {
         $request->fulfill();
 
-        redirect(env('FRONTEND_URL'));
+        return new JsonResponse('Email verified!');
     }
 
     public function resendMail(Request $request): JsonResponse
