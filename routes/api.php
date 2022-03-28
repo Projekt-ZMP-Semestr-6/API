@@ -30,7 +30,6 @@ Route::prefix('auth')
         Route::get('logout', LogoutController::class)->name('auth.logout')->middleware('auth:sanctum');
 
         Route::controller(EmailVerificationController::class)
-            ->middleware('auth:sanctum')
             ->prefix('email')
             ->as('verification.')
             ->group(function () {
@@ -60,4 +59,4 @@ Route::middleware(['auth:sanctum', 'verified'])
         Route::put('email', UpdateEmailController::class)->name('update.email');
 
         Route::delete('delete', DeleteAccountController::class)->name('delete');
-});
+    });
