@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\EmailVerificationRequest;
+use App\Http\Requests\Auth\ResendEmailVerificationNotificationRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -79,7 +80,7 @@ class EmailVerificationController extends Controller
         return new JsonResponse('Email verified!');
     }
 
-    public function resendMail(Request $request): JsonResponse
+    public function resendMail(ResendEmailVerificationNotificationRequest $request): JsonResponse
     {
         $request->user()->sendEmailVerificationNotification();
 
