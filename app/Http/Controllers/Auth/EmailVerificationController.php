@@ -18,9 +18,28 @@ use Illuminate\Http\Request;
  * description="Resend email verification notification",
  * operationId="resendEmailVerification",
  * tags={"Email verification"},
- * @OA\Response(response=200, description="OK", @OA\JsonContent(type="string", example="Mail sent!")),
- * @OA\Response(response=429, description="Too Many Requests")),
+ * @OA\RequestBody(
+ *      description="Pass the email to which the notification will be send",
+ *      @OA\JsonContent(
+ *          @OA\Property(
+ *              property="email",
+ *              type="email",
+ *              example="test@test.com",
+ *          ),
+ *      ),
  * ),
+ * @OA\Response(
+ *      response=200,
+ *      description="OK",
+ *      @OA\JsonContent(
+ *          type="string",
+ *          example="Mail sent!",
+ *      ),
+ * ),
+ * @OA\Response(
+ *      response=429,
+ *      description="Too Many Requests",
+ * )),
  *
  * @OA\Get(
  * path="/api/auth/email/verify/{id}/{hash}",
@@ -58,11 +77,15 @@ use Illuminate\Http\Request;
  * ),
  * @OA\Response(
  *      response=200,
- *      description="OK"
+ *      description="OK",
+ *      @OA\JsonContent(
+ *          type="string",
+ *          example="Email verified!",
+ *      ),
  * ),
  * @OA\Response(
  *      response=403,
- *      description="Forbidden"
+ *      description="Forbidden",
  * ))
  */
 class EmailVerificationController extends Controller
