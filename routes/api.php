@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\User\UpdateEmailController;
 use App\Http\Controllers\User\UpdateNameController;
 use App\Http\Controllers\User\UpdatePasswordController;
@@ -59,4 +60,9 @@ Route::middleware(['auth:sanctum', 'verified'])
         Route::put('email', UpdateEmailController::class)->name('update.email');
 
         Route::delete('delete', DeleteAccountController::class)->name('delete');
+    });
+
+Route::middleware(['auth:sanctum', 'verified'])
+    ->group(function () {
+        Route::get('search/{gameName}', [GameController::class, 'index'])->name('search');
     });
