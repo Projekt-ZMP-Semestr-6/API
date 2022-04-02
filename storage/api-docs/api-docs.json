@@ -370,6 +370,147 @@
                 }
             }
         },
+        "/api/search/{gameName}": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Search game",
+                "description": "Search for game with the given title",
+                "operationId": "gameSearch",
+                "parameters": [
+                    {
+                        "name": "gameName",
+                        "in": "path",
+                        "description": "Game's title",
+                        "required": true,
+                        "example": "batman"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Game"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/game/{gameId}": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Game details",
+                "description": "Get deal's details for specific game",
+                "operationId": "gameDetails",
+                "parameters": [
+                    {
+                        "name": "gameId",
+                        "in": "path",
+                        "description": "Game's ID",
+                        "required": true,
+                        "example": "167613"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "info": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "LEGO Batman"
+                                                    },
+                                                    "steamAppID": {
+                                                        "type": "string",
+                                                        "example": "21000"
+                                                    },
+                                                    "thumb": {
+                                                        "type": "string",
+                                                        "example": "https://originassets.akamaized.net/origin-com-store-final-assets-prod/195763/142.0x200.0/1040463_MB_142x200_en_US_^_2017-09-08-15-21-36_d7034d41216b6dc201fb20e0cee37c1e66190a11.jpg"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "cheapestPriceEver": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "price": {
+                                                        "type": "string",
+                                                        "example": "3.99"
+                                                    },
+                                                    "date": {
+                                                        "type": "date:unix_timestamp",
+                                                        "example": "1543028665"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "deals": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "storeID": {
+                                                        "type": "string",
+                                                        "example": "23"
+                                                    },
+                                                    "dealID": {
+                                                        "type": "string",
+                                                        "example": "tyTH88J0PXRvYALBjV3cNHd5Juq1qKcu4tG4lBiUCt4%3D"
+                                                    },
+                                                    "price": {
+                                                        "type": "string",
+                                                        "example": "14.95"
+                                                    },
+                                                    "retailPrice": {
+                                                        "type": "string",
+                                                        "example": "19.99"
+                                                    },
+                                                    "savings": {
+                                                        "type": "string",
+                                                        "example": "25.212606"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/user/delete": {
             "delete": {
                 "tags": [
@@ -753,6 +894,39 @@
             "verifyEmail": {
                 "type": "string",
                 "example": "Email not verified."
+            },
+            "Game": {
+                "properties": {
+                    "gameID": {
+                        "type": "string",
+                        "example": "612"
+                    },
+                    "steamAppID": {
+                        "type": "string",
+                        "example": "21000"
+                    },
+                    "cheapest": {
+                        "type": "string",
+                        "example": "14.95"
+                    },
+                    "cheapestDealID": {
+                        "type": "string",
+                        "example": "tyTH88J0PXRvYALBjV3cNHd5Juq1qKcu4tG4lBiUCt4%3D"
+                    },
+                    "external": {
+                        "type": "string",
+                        "example": "LEGO Batman"
+                    },
+                    "internalName": {
+                        "type": "string",
+                        "example": "LEGOBATMAN"
+                    },
+                    "thumb": {
+                        "type": "string",
+                        "example": "https://originassets.akamaized.net/origin-com-store-final-assets-prod/195763/142.0x200.0/1040463_MB_142x200_en_US_^_2017-09-08-15-21-36_d7034d41216b6dc201fb20e0cee37c1e66190a11.jpg"
+                    }
+                },
+                "type": "object"
             },
             "User": {
                 "properties": {
