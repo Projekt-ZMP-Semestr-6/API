@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Http\Controllers;
 
 use App\Services\SearchGameService;
+use App\Services\ShowGameService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -22,9 +23,11 @@ class GameController extends Controller
         //
     }
 
-    public function show($id)
+    public function show(ShowGameService $service, int $gameId): JsonResponse
     {
-        //
+        $result = $service->get($gameId);
+
+        return new JsonResponse($result);
     }
 
     public function update(Request $request, $id)
