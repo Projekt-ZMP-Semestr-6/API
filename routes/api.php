@@ -63,6 +63,8 @@ Route::middleware(['auth:sanctum', 'verified'])
     });
 
 Route::middleware(['auth:sanctum', 'verified'])
+    ->as('game.')
     ->group(function () {
         Route::get('search/{gameName}', [GameController::class, 'index'])->name('search');
+        Route::get('game/{gameId}', [GameController::class, 'show'])->name('details');
     });
