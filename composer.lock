@@ -68,16 +68,16 @@
         },
         {
             "name": "darkaonline/l5-swagger",
-            "version": "8.3.0",
+            "version": "8.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DarkaOnLine/L5-Swagger.git",
-                "reference": "b2e7885df13b0c43b48a8a1028d77428126228da"
+                "reference": "95326884fa22c9840866b688a60242f5f80acd00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DarkaOnLine/L5-Swagger/zipball/b2e7885df13b0c43b48a8a1028d77428126228da",
-                "reference": "b2e7885df13b0c43b48a8a1028d77428126228da",
+                "url": "https://api.github.com/repos/DarkaOnLine/L5-Swagger/zipball/95326884fa22c9840866b688a60242f5f80acd00",
+                "reference": "95326884fa22c9840866b688a60242f5f80acd00",
                 "shasum": ""
             },
             "require": {
@@ -135,7 +135,7 @@
             ],
             "support": {
                 "issues": "https://github.com/DarkaOnLine/L5-Swagger/issues",
-                "source": "https://github.com/DarkaOnLine/L5-Swagger/tree/8.3.0"
+                "source": "https://github.com/DarkaOnLine/L5-Swagger/tree/8.3.1"
             },
             "funding": [
                 {
@@ -143,7 +143,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-14T07:30:01+00:00"
+            "time": "2022-04-01T08:06:18+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -2926,16 +2926,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v4.6.2",
+            "version": "v4.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "d191c1ca18443a77273e9912ac2603ce1f7dc216"
+                "reference": "7260f967ec53c8be13ffe0dbe3107bbc6a3766aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/d191c1ca18443a77273e9912ac2603ce1f7dc216",
-                "reference": "d191c1ca18443a77273e9912ac2603ce1f7dc216",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/7260f967ec53c8be13ffe0dbe3107bbc6a3766aa",
+                "reference": "7260f967ec53c8be13ffe0dbe3107bbc6a3766aa",
                 "shasum": ""
             },
             "type": "library",
@@ -2981,9 +2981,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v4.6.2"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v4.10.3"
             },
-            "time": "2022-03-10T11:36:38+00:00"
+            "time": "2022-04-01T22:06:17+00:00"
         },
         {
             "name": "symfony/console",
@@ -5416,16 +5416,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.2.11",
+            "version": "4.2.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "1c7a04e381b07e14aae080a61e02f2fe9cdea424"
+                "reference": "8888655d7dc21eda6ec71e521f71a757605f48fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/1c7a04e381b07e14aae080a61e02f2fe9cdea424",
-                "reference": "1c7a04e381b07e14aae080a61e02f2fe9cdea424",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/8888655d7dc21eda6ec71e521f71a757605f48fe",
+                "reference": "8888655d7dc21eda6ec71e521f71a757605f48fe",
                 "shasum": ""
             },
             "require": {
@@ -5485,9 +5485,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.2.11"
+                "source": "https://github.com/zircote/swagger-php/tree/4.2.13"
             },
-            "time": "2022-03-06T19:16:21+00:00"
+            "time": "2022-03-23T08:54:27+00:00"
         }
     ],
     "packages-dev": [
