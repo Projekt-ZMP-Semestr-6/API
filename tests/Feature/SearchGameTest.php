@@ -24,7 +24,7 @@ class SearchGameTest extends TestCase
 
         $this->uri = route('game.search', 'batman');
         $this->user = User::factory()->create();
-        $this->expectedResponse = json_decode(file_get_contents('tests\responses\search_game_200.json'), true);
+        $this->expectedResponse = json_decode(file_get_contents('tests/Responses/search_game_200.json'), true);
 
         Http::fake([
             env('EXTERNAL_API') => Http::response($this->expectedResponse)
