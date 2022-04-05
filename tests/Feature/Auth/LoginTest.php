@@ -42,12 +42,12 @@ class LoginTest extends TestCase
         );
     }
 
-    public function test_user_can_login_from_phone(): void
+    public function test_user_can_login_from_mobile(): void
     {
         $data = [
             'email' => $this->user->email,
             'password' => 'password',
-            'device_name' => 'phone',
+            'device_name' => 'mobile',
         ];
 
         $response = $this->postJson($this->uri, $data);
