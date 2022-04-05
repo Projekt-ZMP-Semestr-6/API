@@ -37,9 +37,9 @@ class LogoutTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_user_can_logout_from_phone(): void
+    public function test_user_can_logout_from_mobile(): void
     {
-        $tokenWeb = $this->loginUser('phone');
+        $tokenWeb = $this->loginUser('mobile');
 
         $data = [
             'Authorization' => "Bearer {$tokenWeb}"
