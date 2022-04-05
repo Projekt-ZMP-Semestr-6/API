@@ -5,9 +5,11 @@ declare(strict_types = 1);
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Services\SearchGameService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
+use Mockery;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class SearchGameTest extends TestCase
@@ -26,9 +28,12 @@ class SearchGameTest extends TestCase
         $this->user = User::factory()->create();
         $this->expectedResponse = json_decode(file_get_contents('tests/Responses/search_game_200.json'), true);
 
-        Http::fake([
-            env('EXTERNAL_API') => Http::response($this->expectedResponse)
-        ]);
+        $this->instance(
+            SearchGameService::class,
+            Mockery::mock(SearchGameService::class, function (MockInterface $mock) {
+                $mock->shouldReceive('searchFor')->with('batman')->andReturn($this->expectedResponse);
+            })
+        );
     }
 
     public function test_user_can_search_for_game(): void
