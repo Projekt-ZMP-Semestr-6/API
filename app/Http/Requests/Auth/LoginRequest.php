@@ -23,7 +23,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => 'email|required|exists:users,email',
             'password' => 'string|required',
-            'device_name' => 'string|in:desktop,phone,web|required'
+            'device_name' => 'string|in:desktop,mobile,web|required'
         ];
     }
 
