@@ -5,9 +5,11 @@ declare(strict_types = 1);
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Services\ShowGameService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
+use Mockery;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class ShowGameTest extends TestCase
@@ -26,9 +28,12 @@ class ShowGameTest extends TestCase
         $this->user = User::factory()->create();
         $this->expectedResponse = json_decode(file_get_contents('tests/Responses/game_details_200.json'), true);
 
-        Http::fake([
-            env('EXTERNAL_API') => Http::response($this->expectedResponse)
-        ]);
+        $this->instance(
+            ShowGameService::class,
+            Mockery::mock(ShowGameService::class, function (MockInterface $mock) {
+                $mock->shouldReceive('get')->with('612')->andReturn($this->expectedResponse);
+            })
+        );
     }
 
     public function test_user_can_get_game_details(): void
