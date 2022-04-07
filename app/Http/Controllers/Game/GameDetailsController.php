@@ -31,7 +31,7 @@ use Illuminate\Http\JsonResponse;
  *              property="info",
  *              type="array",
  *              @OA\Items(
- *                  @OA\Property(property="title" ,type="string", example="LEGO Batman"),
+ *                  @OA\Property(property="title", type="string", example="LEGO Batman"),
  *                  @OA\Property(property="steamAppID", type="string", example="21000"),
  *                  @OA\Property(property="thumb", type="string", example="https://originassets.akamaized.net/origin-com-store-final-assets-prod/195763/142.0x200.0/1040463_MB_142x200_en_US_^_2017-09-08-15-21-36_d7034d41216b6dc201fb20e0cee37c1e66190a11.jpg"),
  *              ),
