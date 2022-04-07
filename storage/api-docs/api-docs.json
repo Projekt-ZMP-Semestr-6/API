@@ -370,45 +370,6 @@
                 }
             }
         },
-        "/api/search/{gameName}": {
-            "get": {
-                "tags": [
-                    "Game"
-                ],
-                "summary": "Search game",
-                "description": "Search for game with the given title",
-                "operationId": "gameSearch",
-                "parameters": [
-                    {
-                        "name": "gameName",
-                        "in": "path",
-                        "description": "Game's title",
-                        "required": true,
-                        "example": "batman"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Game"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
         "/api/game/{gameId}": {
             "get": {
                 "tags": [
@@ -499,6 +460,45 @@
                                         }
                                     },
                                     "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/search/{gameName}": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Search game",
+                "description": "Search for game with the given title",
+                "operationId": "gameSearch",
+                "parameters": [
+                    {
+                        "name": "gameName",
+                        "in": "path",
+                        "description": "Game's title",
+                        "required": true,
+                        "example": "batman"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Game"
+                                    }
                                 }
                             }
                         }
@@ -954,8 +954,5 @@
                 "in": "header"
             }
         }
-    },
-    "security": [
-        []
-    ]
+    }
 }
