@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Game\FreebiesController;
 use App\Http\Controllers\Game\GameDetailsController;
 use App\Http\Controllers\Game\SearchGameController;
 use App\Http\Controllers\User\UpdateEmailController;
@@ -68,4 +69,5 @@ Route::middleware(['auth:sanctum', 'verified'])
     ->group(function () {
         Route::get('search/{gameName}', SearchGameController::class)->name('search');
         Route::get('game/{gameId}', GameDetailsController::class)->name('details');
+        Route::get('freebies', FreebiesController::class)->name('freebies');
     });
