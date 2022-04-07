@@ -2,17 +2,17 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Feature;
+namespace Tests\Feature\Game;
 
 use App\Models\User;
-use App\Services\SearchGameService;
+use App\Services\ShowGameService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Mockery;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
-class SearchGameTest extends TestCase
+class ShowGameTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -24,19 +24,19 @@ class SearchGameTest extends TestCase
     {
         parent::setUp();
 
-        $this->uri = route('game.search', 'batman');
+        $this->uri = route('game.details', 612);
         $this->user = User::factory()->create();
-        $this->expectedResponse = json_decode(file_get_contents('tests/Responses/search_game_200.json'), true);
+        $this->expectedResponse = json_decode(file_get_contents('tests/Responses/game_details_200.json'), true);
 
         $this->instance(
-            SearchGameService::class,
-            Mockery::mock(SearchGameService::class, function (MockInterface $mock) {
-                $mock->shouldReceive('searchFor')->with('batman')->andReturn($this->expectedResponse);
+            ShowGameService::class,
+            Mockery::mock(ShowGameService::class, function (MockInterface $mock) {
+                $mock->shouldReceive('get')->with('612')->andReturn($this->expectedResponse);
             })
         );
     }
 
-    public function test_user_can_search_for_game(): void
+    public function test_user_can_get_game_details(): void
     {
         Sanctum::actingAs($this->user);
 
@@ -45,7 +45,7 @@ class SearchGameTest extends TestCase
         $response->assertJson($this->expectedResponse);
     }
 
-    public function test_unverified_user_cant_search_for_game(): void
+    public function test_unverified_user_cant_get_game_details(): void
     {
         $this->user = User::factory()->unverified()->create();
 
@@ -60,7 +60,7 @@ class SearchGameTest extends TestCase
         );
     }
 
-    public function test_guest_cant_search_for_game(): void
+    public function test_guest_cant_get_game_details(): void
     {
         $response = $this->getJson($this->uri);
         $response->assertUnauthorized();
