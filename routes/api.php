@@ -64,10 +64,10 @@ Route::middleware(['auth:sanctum', 'verified'])
         Route::delete('delete', DeleteAccountController::class)->name('delete');
     });
 
-Route::middleware(['auth:sanctum', 'verified'])
-    ->as('game.')
-    ->group(function () {
-        Route::get('search/{gameName}', SearchGameController::class)->name('search');
-        Route::get('game/{gameId}', GameDetailsController::class)->name('details');
-        Route::get('freebies', FreebiesController::class)->name('freebies');
-    });
+// Route::middleware(['auth:sanctum', 'verified'])
+//     ->as('game.')
+//     ->group(function () {
+//         Route::get('search/{gameName}', SearchGameController::class)->name('search');
+//         Route::get('game/{gameId}', GameDetailsController::class)->name('details');
+//         Route::get('freebies', FreebiesController::class)->name('freebies');
+//     });
