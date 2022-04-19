@@ -24,7 +24,11 @@ class GamesFetcher
         }
 
         $this->getUnknownGames();
-        $this->updateNames();
+
+        if(Game::exists()) {
+            $this->updateNames();
+        }
+
         $this->persist();
     }
 
