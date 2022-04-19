@@ -56,5 +56,4 @@ class GamesFetcher
             Game::create($item);
         });
     }
-
 }
