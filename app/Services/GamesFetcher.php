@@ -50,7 +50,10 @@ class GamesFetcher
     protected function persist(): void
     {
         $this->games->map(function ($item) {
-            Game::updateOrCreate(['appid' => $item['appid']], $item);
+            Game::updateOrCreate(
+                array('appid' => $item['appid']),
+                $item,
+            );
         });
     }
 
