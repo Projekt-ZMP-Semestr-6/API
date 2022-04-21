@@ -28,7 +28,7 @@ class GamesFetcher
 
     protected function fetch(): Response
     {
-        $response = Http::get('http://api.steampowered.com/IStoreService/GetAppList/v1/', [
+        $response = Http::get('https://api.steampowered.com/IStoreService/GetAppList/v1/', [
             'key' => env('API_KEY'),
             'max_results' => 50000,
             'last_appid' => $this->lastAppid,
