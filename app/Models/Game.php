@@ -11,11 +11,10 @@ use Illuminate\Database\Eloquent\Model;
  * @OA\Schema(
  * schema="Game",
  * type="object",
- * @OA\Property(property="id", type="string", example="612"),
- * @OA\Property(property="name", type="string", example="14.95"),
+ * @OA\Property(property="id", type="string", example="487"),
+ * @OA\Property(property="name", type="string", example="LEGO® Batman™: The Videogame"),
  * @OA\Property(property="appid", type="string", example="21000"),
- * @OA\Property(property="last_modified", type="date:unix_timestamp", example="1602536047"),
- * @OA\Property(property="price_change_number", type="int", example="13853601"),
+ * @OA\Property(property="last_modified", type="date:unix_timestamp", example="1573509038"),
  * )
  */
 class Game extends Model

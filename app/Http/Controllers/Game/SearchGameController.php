@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Game;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\GameResource;
 use App\Services\SearchGameService;
 use Illuminate\Http\JsonResponse;
 
@@ -39,6 +40,8 @@ class SearchGameController extends Controller
     public function __invoke(SearchGameService $service, string $gameName): JsonResponse
     {
         $games = $service->searchFor($gameName);
+
+        $games = GameResource::collection($games);
 
         return new JsonResponse($games);
     }

@@ -1008,33 +1008,21 @@
             },
             "Game": {
                 "properties": {
-                    "gameID": {
+                    "id": {
                         "type": "string",
-                        "example": "612"
+                        "example": "487"
                     },
-                    "steamAppID": {
+                    "name": {
+                        "type": "string",
+                        "example": "LEGO® Batman™: The Videogame"
+                    },
+                    "appid": {
                         "type": "string",
                         "example": "21000"
                     },
-                    "cheapest": {
-                        "type": "string",
-                        "example": "14.95"
-                    },
-                    "cheapestDealID": {
-                        "type": "string",
-                        "example": "tyTH88J0PXRvYALBjV3cNHd5Juq1qKcu4tG4lBiUCt4%3D"
-                    },
-                    "external": {
-                        "type": "string",
-                        "example": "LEGO Batman"
-                    },
-                    "internalName": {
-                        "type": "string",
-                        "example": "LEGOBATMAN"
-                    },
-                    "thumb": {
-                        "type": "string",
-                        "example": "https://originassets.akamaized.net/origin-com-store-final-assets-prod/195763/142.0x200.0/1040463_MB_142x200_en_US_^_2017-09-08-15-21-36_d7034d41216b6dc201fb20e0cee37c1e66190a11.jpg"
+                    "last_modified": {
+                        "type": "date:unix_timestamp",
+                        "example": "1573509038"
                     }
                 },
                 "type": "object"
