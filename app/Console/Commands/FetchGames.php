@@ -30,6 +30,6 @@ class FetchGames extends Command
      */
     public function handle(GamesFetcher $fetcher)
     {
-        $fetcher->fetch();
+        $fetcher->process();
     }
 }

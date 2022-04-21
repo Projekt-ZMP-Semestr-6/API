@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('appid');
+            $table->bigInteger('last_modified')->nullable();
+            $table->integer('price_change_number')->nullable();
             $table->timestamps();
         });
     }
