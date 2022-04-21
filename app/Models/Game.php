@@ -31,6 +31,6 @@ class Game extends Model
 
     public function getHeaderImage(): string
     {
-        return env('HEADER_IMG_SRC') . $this->appid . env('HEADER_IMG_NAME') . "?t={$this->last_modified}";
+        return env('MEDIA_SRC') . $this->appid . "/capsule_184x69.jpg" . "?t={$this->last_modified}";
     }
 }
