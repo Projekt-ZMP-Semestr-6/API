@@ -1023,6 +1023,10 @@
                     "last_modified": {
                         "type": "date:unix_timestamp",
                         "example": "1573509038"
+                    },
+                    "header_img": {
+                        "type": "string",
+                        "example": "https://cdn.cloudflare.steamstatic.com/steam/apps/21000/capsule_184x69.jpg?t=1573509038"
                     }
                 },
                 "type": "object"

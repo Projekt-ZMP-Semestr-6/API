@@ -21,6 +21,7 @@ class GameResource extends JsonResource
             'name' => $this->name,
             'appid' => $this->appid,
             'last_modified' => $this->last_modified,
+            'header_img' => $this->getHeaderImage(),
         ];
     }
 }

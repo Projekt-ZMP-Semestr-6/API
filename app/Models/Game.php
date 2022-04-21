@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @OA\Property(property="name", type="string", example="LEGO® Batman™: The Videogame"),
  * @OA\Property(property="appid", type="string", example="21000"),
  * @OA\Property(property="last_modified", type="date:unix_timestamp", example="1573509038"),
+ * @OA\Property(property="header_img", type="string", example="https://cdn.cloudflare.steamstatic.com/steam/apps/21000/capsule_184x69.jpg?t=1573509038"),
  * )
  */
 class Game extends Model
@@ -27,4 +28,9 @@ class Game extends Model
         'last_modified',
         'price_change_number',
     ];
+
+    public function getHeaderImage(): string
+    {
+        return env('HEADER_IMG_SRC') . $this->appid . env('HEADER_IMG_NAME') . "?t={$this->last_modified}";
+    }
 }
