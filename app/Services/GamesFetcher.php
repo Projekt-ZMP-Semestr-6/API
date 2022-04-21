@@ -39,12 +39,14 @@ class GamesFetcher
 
     protected function processResponse(Response $response): bool
     {
-        $this->lastAppid = (int) $response->collect('response')->get('last_appid');
-        $this->games = $response->collect('response.apps');
+        $response = $response->collect('response');
+
+        $this->lastAppid = (int) $response->get('last_appid');
+        $this->games = $response->only('apps');
 
         $this->games ?? throw new GamesNotFetchedException;
 
-        return (bool) $response->collect('response')->get('have_more_results');
+        return (bool) $response->get('have_more_results');
     }
 
     protected function persist(): void
