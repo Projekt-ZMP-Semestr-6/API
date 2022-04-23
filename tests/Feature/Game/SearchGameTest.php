@@ -4,8 +4,10 @@ declare(strict_types = 1);
 
 namespace Tests\Feature\Game;
 
+use App\Models\Game;
 use App\Models\User;
 use App\Services\SearchGameService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Mockery;
@@ -18,7 +20,7 @@ class SearchGameTest extends TestCase
 
     protected User $user;
     protected string $uri;
-    protected mixed $expectedResponse;
+    protected Collection $expectedResponse;
 
     protected function setUp(): void
     {
@@ -26,7 +28,17 @@ class SearchGameTest extends TestCase
 
         $this->uri = route('game.search', 'batman');
         $this->user = User::factory()->create();
-        $this->expectedResponse = json_decode(file_get_contents('tests/Responses/search_game_200.json'), true);
+
+        $this->expectedResponse = Collection::make(
+            json_decode(
+                file_get_contents('tests/Responses/search_game_200.json'),
+                true,
+            )
+        );
+
+        $this->expectedResponse->transform(function ($item, $key) {
+            return Game::make($item);
+        });
 
         $this->instance(
             SearchGameService::class,
@@ -36,13 +48,13 @@ class SearchGameTest extends TestCase
         );
     }
 
-    public function test_user_can_search_for_game(): void
+    public function test_user_can_search_for_game()
     {
         Sanctum::actingAs($this->user);
 
         $response = $this->getJson($this->uri);
         $response->assertOk();
-        $response->assertJson($this->expectedResponse);
+        $response->assertJson($this->expectedResponse->toArray());
     }
 
     public function test_unverified_user_cant_search_for_game(): void

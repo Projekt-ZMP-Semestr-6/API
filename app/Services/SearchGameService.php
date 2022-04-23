@@ -4,36 +4,17 @@ declare(strict_types = 1);
 
 namespace App\Services;
 
-use App\Http\Clients\GameClient;
+use App\Models\Game;
+use Illuminate\Database\Eloquent\Collection;
 
 class SearchGameService
 {
-    protected GameClient $client;
-
-    public function __construct()
+    public function searchFor(string $gameName): Collection
     {
-        $this->client = new GameClient();
-    }
+        $gameName = strtr($gameName, ' ', '%');
 
-    public function searchFor(string $gameTitle): mixed
-    {
-        $uri = env('EXTERNAL_API') . 'games';
-        $options = $this->buildOptions($gameTitle);
+        $games = Game::where('name', 'ilike', "%$gameName%")->limit(5)->get();
 
-        $found = $this->client->get($uri, $options);
-
-        return $found;
-    }
-
-    protected function buildOptions(string $gameTitle): array
-    {
-        return [
-            'verify' => false,
-            'query' => [
-                'title' => $gameTitle,
-                'limit' => 5,
-                'exact' => 0,
-            ],
-        ];
+        return $games;
     }
 }

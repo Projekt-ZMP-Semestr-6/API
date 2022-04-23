@@ -7,6 +7,7 @@ namespace Tests\Feature\Game;
 use App\Models\User;
 use App\Services\ShowGameService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\Sanctum;
 use Mockery;
 use Mockery\MockInterface;
@@ -18,20 +19,26 @@ class ShowGameTest extends TestCase
 
     protected User $user;
     protected string $uri;
-    protected mixed $expectedResponse;
+    protected Collection $expectedResponse;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->uri = route('game.details', 612);
+        $this->uri = route('game.details', 21000);
         $this->user = User::factory()->create();
-        $this->expectedResponse = json_decode(file_get_contents('tests/Responses/game_details_200.json'), true);
+
+        $this->expectedResponse = Collection::make(
+            json_decode(
+                file_get_contents('tests/Responses/game_details_200.json'),
+                true,
+            )
+        );
 
         $this->instance(
             ShowGameService::class,
             Mockery::mock(ShowGameService::class, function (MockInterface $mock) {
-                $mock->shouldReceive('get')->with('612')->andReturn($this->expectedResponse);
+                $mock->shouldReceive('get')->with('21000')->andReturn($this->expectedResponse);
             })
         );
     }
@@ -42,7 +49,8 @@ class ShowGameTest extends TestCase
 
         $response = $this->getJson($this->uri);
         $response->assertOk();
-        $response->assertJson($this->expectedResponse);
+
+        $response->assertJson($this->expectedResponse->toArray());
     }
 
     public function test_unverified_user_cant_get_game_details(): void

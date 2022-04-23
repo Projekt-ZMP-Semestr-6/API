@@ -4,34 +4,49 @@ declare(strict_types = 1);
 
 namespace App\Services;
 
-use App\Http\Clients\GameClient;
+use App\Exceptions\Game\GameDetailsNotRetrievedException;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Http;
 
 class ShowGameService
 {
-    protected GameClient $client;
-
-    public function __construct()
+    public function get(int $appId): Collection
     {
-        $this->client = new GameClient();
+        $response = Http::get("https://store.steampowered.com/api/appdetails", [
+            'key' => env('API_KEY'),
+            'appids' => $appId,
+            'cc' => 'en',
+        ]);
+
+        $gameDetails = $this->processResponse($response, $appId);
+
+        return $gameDetails;
     }
 
-    public function get(int $gameId): mixed
+    protected function processResponse(Response $response, int $appId): Collection
     {
-        $uri = env('EXTERNAL_API') . 'games';
-        $options = $this->buildOptions($gameId);
+        $response->collect("$appId")->get('success') ?? throw new GameDetailsNotRetrievedException;
 
-        $response = $this->client->get($uri, $options);
+        $gameDetails = $response->collect("$appId.data")->only([
+            'type',
+            'name',
+            'steam_appid',
+            'controller_support',
+            'detailed_description',
+            'about_the_game',
+            'short_description',
+            'supported_languages',
+            'header_image',
+            'developers',
+            'publishers',
+            'price_overview',
+            'platforms',
+            'release_date',
+            'background',
+            'screenshots',
+        ]);
 
-        return $response;
-    }
-
-    protected function buildOptions(int $gameId): array
-    {
-        return [
-            'verify' => false,
-            'query' => [
-                'id' => $gameId,
-            ],
-        ];
+        return $gameDetails;
     }
 }

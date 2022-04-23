@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace Tests\Feature\Game;
 
 use App\Models\User;
-use App\Services\ShowFreebiesService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\Sanctum;
 use Mockery;
 use Mockery\MockInterface;
@@ -18,7 +18,7 @@ class ShowFreebiesTest extends TestCase
 
     protected User $user;
     protected string $uri;
-    protected mixed $expectedResponse;
+    protected Collection $expectedResponse;
 
     protected function setUp(): void
     {
@@ -26,7 +26,13 @@ class ShowFreebiesTest extends TestCase
 
         $this->uri = route('game.freebies');
         $this->user = User::factory()->create();
-        $this->expectedResponse = json_decode(file_get_contents('tests/Responses/game_freebies_200.json'), true);
+
+        $this->expectedResponse = Collection::make(
+            json_decode(
+                file_get_contents('tests/Responses/game_freebies_200.json'),
+                true,
+            )
+        );
 
         $this->instance(
             ShowFreebiesService::class,
@@ -42,7 +48,7 @@ class ShowFreebiesTest extends TestCase
 
         $response = $this->getJson($this->uri);
         $response->assertOk();
-        $response->assertJson($this->expectedResponse);
+        $response->assertJson($this->expectedResponse->toArray());
     }
 
     public function test_unverified_user_cant_retrieve_freebies(): void
