@@ -2,9 +2,8 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Feature;
+namespace Tests\Feature\Game;
 
-use App\Http\Resources\GameResource;
 use App\Models\Game;
 use App\Models\User;
 use App\Services\SearchGameService;
