@@ -69,5 +69,5 @@ Route::middleware(['auth:sanctum', 'verified'])
     ->group(function () {
         Route::get('search/{gameName}', SearchGameController::class)->name('search');
         Route::get('game/{appId}', GameDetailsController::class)->name('details');
-        // Route::get('freebies', FreebiesController::class)->name('freebies');
+        Route::get('freebies', FreebiesController::class)->name('freebies');
     });
