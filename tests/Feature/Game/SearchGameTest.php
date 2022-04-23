@@ -32,7 +32,7 @@ class SearchGameTest extends TestCase
         $this->expectedResponse = Collection::make(
             json_decode(
                 file_get_contents('tests/Responses/search_game_200.json'),
-                true
+                true,
             )
         );
 

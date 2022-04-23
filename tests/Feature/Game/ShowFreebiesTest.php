@@ -30,7 +30,7 @@ class ShowFreebiesTest extends TestCase
         $this->expectedResponse = Collection::make(
             json_decode(
                 file_get_contents('tests/Responses/game_freebies_200.json'),
-                true
+                true,
             )
         );
 
