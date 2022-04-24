@@ -1062,6 +1062,12 @@
                     "email": {
                         "type": "email",
                         "example": "test@test.com"
+                    },
+                    "observedGames": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Game"
+                        }
                     }
                 },
                 "type": "object"

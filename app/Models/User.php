@@ -20,7 +20,13 @@ use Laravel\Sanctum\HasApiTokens;
  * @OA\Property(property="id", type="uuid", example="95c0fbe0-2ae6-4a99-a41c-14b0a68cf057"),
  * @OA\Property(property="name", type="string", example="Greg"),
  * @OA\Property(property="email", type="email", example="test@test.com"),
- * )
+ * @OA\Property(
+ *      property="observedGames",
+ *      type="array",
+ *      @OA\Items(
+ *          ref="#/components/schemas/Game"
+ *      ),
+ * ))
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
