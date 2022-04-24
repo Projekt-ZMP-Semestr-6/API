@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Tests\Feature\Auth;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -33,9 +34,12 @@ class RegistrationTest extends TestCase
         $response = $this->postJson($this->uri, $data);
         $response->assertCreated();
 
+        $user = $response->json();
+        unset($user['observedGames']);
+
         $this->assertDatabaseHas(
             'users',
-            $response->json()
+            $user
         );
     }
 
