@@ -4,8 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Collection as SupportCollection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class PriceRetriever
@@ -14,7 +13,7 @@ class PriceRetriever
         protected ObservedGamesRetriever $retirever
     ) {}
 
-    public function get(Collection|array $games = null): SupportCollection
+    public function get(Collection $games = null): Collection
     {
         $games = $games ?? $this->retirever->get();
 
@@ -24,7 +23,7 @@ class PriceRetriever
         return $prices;
     }
 
-    protected function getPrices(string $appIds): SupportCollection
+    protected function getPrices(string $appIds): Collection
     {
         $response = Http::get('https://store.steampowered.com/api/appdetails', $this->getParams($appIds));
         $content = $response->collect();
