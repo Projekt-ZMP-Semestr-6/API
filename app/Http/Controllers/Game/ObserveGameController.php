@@ -6,19 +6,22 @@ namespace App\Http\Controllers\Game;
 
 use App\Exceptions\Game\AttachingGameException;
 use App\Exceptions\Game\DetachingGameException;
+use App\Exceptions\Game\GameDeletionException;
 use App\Http\Controllers\Controller;
 use App\Models\Game;
 use App\Services\GamePriceUpdater;
 use App\Services\PriceRetriever;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * @OA\Get(
- * path="/api/observe/{appid}",
- * summary="Observe game",
- * description="Observe game's price",
- * operationId="observeGame",
+ * path="/api/attach/{appid}",
+ * summary="Attach game",
+ * description="Attach game to observing its price",
+ * operationId="attachGame",
  * tags={"Game"},
  * security={{"sanctum": {}}},
  * @OA\Parameter(
@@ -31,29 +34,57 @@ use Illuminate\Http\Request;
  * @OA\Response(
  *      response=200,
  *      description="OK",
- * ))
+ * )),
+ * @OA\Get(
+ * path="/api/detach/{appid}",
+ * summary="Detach game",
+ * description="Detach game from observing its price",
+ * operationId="detachGame",
+ * tags={"Game"},
+ * security={{"sanctum": {}}},
+ * @OA\Parameter(
+ *      name="appid",
+ *      in="path",
+ *      description="Game's appId",
+ *      required=true,
+ *      example="21000",
+ * ),
+ * @OA\Response(
+ *      response=200,
+ *      description="OK",
+ * )),
  */
 class ObserveGameController extends Controller
 {
-    public function __invoke(Request $request, Game $game, PriceRetriever $retriever, GamePriceUpdater $updater): JsonResponse
+    public function attach(Request $request, Game $game, PriceRetriever $retriever, GamePriceUpdater $updater): JsonResponse
     {
         $user = $request->user('sanctum');
-        $results = $user->observedGames()->toggle($game);
 
-        $this->hasSucceeded($results, $game->appid);
+        $result = $user->observedGames()->syncWithoutDetaching($game);
 
-        $prices = $retriever->get([$game]);
+        if ($result['detached'] || $result ['updated']) {
+            throw new AttachingGameException;
+        }
+
+        $collection = EloquentCollection::make([$game]);
+
+        $prices = $retriever->get($collection);
         $updater->update($prices);
 
         return new JsonResponse();
     }
 
-    protected function hasSucceeded(array $results, int $appid): void
+    public function detach(Request $request, Game $game): JsonResponse
     {
-        $attached = $results['attached'];
-        $detached = $results['detached'];
+        $user = $request->user('sanctum');
 
-        in_array($appid, $attached) ?? throw new AttachingGameException;
-        in_array($appid, $detached) ?? throw new DetachingGameException;
+        $detached = $user->observedGames()->detach($game);
+        $stillAttached = in_array($game, $user->observedGames->toArray());
+
+        if ($detached && $stillAttached) {
+            throw new DetachingGameException;
+        }
+
+        return new JsonResponse();
     }
 }

@@ -71,5 +71,6 @@ Route::middleware(['auth:sanctum', 'verified'])
         Route::get('search/{gameName}', SearchGameController::class)->name('search');
         Route::get('game/{appId}', GameDetailsController::class)->name('details');
         Route::get('freebies', FreebiesController::class)->name('freebies');
-        Route::get('observe/{game:appid}', ObserveGameController::class)->name('observe');
+        Route::get('attach/{game:appid}', [ObserveGameController::class, 'attach'])->name('observe.attach');
+        Route::get('detach/{game:appid}', [ObserveGameController::class, 'detach'])->name('observe.detach');
     });
