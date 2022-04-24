@@ -1027,7 +1027,7 @@
             "Game": {
                 "properties": {
                     "id": {
-                        "type": "string",
+                        "type": "integer",
                         "example": "487"
                     },
                     "name": {
@@ -1035,7 +1035,7 @@
                         "example": "LEGO® Batman™: The Videogame"
                     },
                     "appid": {
-                        "type": "string",
+                        "type": "integer",
                         "example": "21000"
                     },
                     "last_modified": {
