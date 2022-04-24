@@ -572,6 +572,35 @@
                 ]
             }
         },
+        "/api/observe/{appid}": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Observe game",
+                "description": "Observe game's price",
+                "operationId": "observeGame",
+                "parameters": [
+                    {
+                        "name": "appid",
+                        "in": "path",
+                        "description": "Game's appId",
+                        "required": true,
+                        "example": "21000"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/search/{gameName}": {
             "get": {
                 "tags": [
