@@ -8,6 +8,8 @@ use App\Exceptions\Game\AttachingGameException;
 use App\Exceptions\Game\DetachingGameException;
 use App\Http\Controllers\Controller;
 use App\Models\Game;
+use App\Services\GamePriceUpdater;
+use App\Services\PriceRetriever;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -33,13 +35,15 @@ use Illuminate\Http\Request;
  */
 class ObserveGameController extends Controller
 {
-    public function __invoke(Request $request, Game $game): JsonResponse
+    public function __invoke(Request $request, Game $game, PriceRetriever $retriever, GamePriceUpdater $updater): JsonResponse
     {
         $user = $request->user('sanctum');
-
         $results = $user->observedGames()->toggle($game);
 
         $this->hasSucceeded($results, $game->appid);
+
+        $prices = $retriever->get([$game]);
+        $updater->update($prices);
 
         return new JsonResponse();
     }
