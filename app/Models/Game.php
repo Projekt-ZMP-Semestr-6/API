@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @OA\Schema(
@@ -38,5 +39,10 @@ class Game extends Model
     public function observedBy(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'game_user');
+    }
+
+    public function price(): HasOne
+    {
+        return $this->hasOne(Price::class);
     }
 }
