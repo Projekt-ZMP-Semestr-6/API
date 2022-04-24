@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CheckPrices;
 use App\Console\Commands\FetchGames;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -21,6 +22,11 @@ class Kernel extends ConsoleKernel
             ->runInBackground()
             ->dailyAt('1:00')
             ->days([Schedule::MONDAY, Schedule::THURSDAY]);
+
+        $schedule->command(CheckPrices::class)
+            ->withoutOverlapping(15)
+            ->runInBackground()
+            ->everyFourHours();
     }
 
     /**
