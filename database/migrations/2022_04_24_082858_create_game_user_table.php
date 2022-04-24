@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignUuid('user_id');
             $table->foreignId('game_id');
-            $table->timestamps();
         });
     }
 
