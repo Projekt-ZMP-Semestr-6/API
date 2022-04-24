@@ -8,7 +8,7 @@ use App\Services\GamePriceUpdater;
 use App\Services\PriceRetriever;
 use Illuminate\Console\Command;
 
-class CheckPricesCommand extends Command
+class CheckPrices extends Command
 {
     protected $signature = 'games:check';
 
