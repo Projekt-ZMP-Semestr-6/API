@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Game;
 
 use App\Exceptions\Game\AttachingGameException;
 use App\Exceptions\Game\DetachingGameException;
-use App\Exceptions\Game\GameDeletionException;
 use App\Http\Controllers\Controller;
 use App\Models\Game;
 use App\Services\GamePriceUpdater;
@@ -14,7 +13,6 @@ use App\Services\PriceRetriever;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 /**
  * @OA\Get(
