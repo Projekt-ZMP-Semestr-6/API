@@ -8,6 +8,7 @@ use App\Traits\HasUuid;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -58,6 +59,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $dispatchesEvents = [
         'created' => Registered::class,
     ];
+
+    public function observedGames(): BelongsToMany
+    {
+        return $this->belongsToMany(Game::class, 'game_user');
+    }
 
     public function delete(): bool|null
     {

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @OA\Schema(
@@ -32,5 +33,10 @@ class Game extends Model
     public function getHeaderImage(): string
     {
         return env('MEDIA_SRC') . $this->appid . "/capsule_184x69.jpg" . "?t={$this->last_modified}";
+    }
+
+    public function observedBy(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'game_user');
     }
 }
