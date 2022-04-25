@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace App\Services;
 
 use App\Models\Game;
-use App\Models\Price;
 use Illuminate\Support\Collection;
 
 class GamePriceUpdater
@@ -23,50 +22,54 @@ class GamePriceUpdater
 
         foreach($games as $game)
         {
-            $price = $game->price()->firstOrCreate();
-            $actualPrice = (int) $prices->get($game->appid);
+            $foundPrice = (int) $prices->get($game->appid);
 
-            if($price->wasRecentlyCreated) {
-                $price->update([
-                    'actual_price' => $actualPrice,
-                    'lowest_price' => $actualPrice,
-                    'highest_price' => $actualPrice,
-                ]);
-
-                continue;
-            }
-
-            $price->actual_price = $actualPrice;
-            $price->lowest_price = $this->resolveLowestPrice($price, $actualPrice);
-            $price->highest_price = $this->resolveHighestPrice($price, $actualPrice);
-
-            $price->save();
+            $this->resolveActualPrice($game, $foundPrice);
+            $this->resolveLowestPrice($game, $foundPrice);
+            $this->resolveHighestPrice($game, $foundPrice);
         }
 
         return $this->reducedPrices;
     }
 
-    private function resolveLowestPrice(Price $price, int $actualPrice): int
+    private function resolveActualPrice(Game $game, int $foundPrice)
     {
-        $lowestPrice = $price->lowest_price;
+        $actualPrice = $game->actualPrice()->firstOrCreate();
 
-        if($actualPrice < $lowestPrice) {
-            $this->reducedPrices->push($price);
+        $actualPrice->price = $foundPrice;
 
-            return $actualPrice;
-        }
-
-        return $lowestPrice;
+        $actualPrice->save();
     }
 
-    private function resolveHighestPrice(Price $price, int $actualPrice): int
+    private function resolveLowestPrice(Game $game, int $foundPrice)
     {
-        $highestPrice = $price->highest_price;
 
-        if($actualPrice > $highestPrice) {
-            return $actualPrice;
+        $lowestPrice = $game->lowestPrice()->firstOrCreate(
+            values: ['price' => $foundPrice]
+        );
+
+        if ($foundPrice < $lowestPrice->price) {
+            $lowestPrice->update([
+                'price' => $foundPrice,
+            ]);
+
+            $this->reducedPrices->push($game->appid);
         }
 
-        return $highestPrice;
+        return;
+    }
+
+    private function resolveHighestPrice(Game $game, int $foundPrice)
+    {
+        $highestPrice = $game->highestPrice()->firstOrCreate(
+            values: ['price' => $foundPrice]
+        );
+
+        if ($foundPrice < $highestPrice->price) {
+            return;
+        }
+
+        $highestPrice->price = $foundPrice;
+        $highestPrice->save();
     }
 }
