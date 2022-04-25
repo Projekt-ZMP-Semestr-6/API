@@ -32,34 +32,36 @@ class GamePriceUpdater
         return $this->reducedPrices;
     }
 
-    private function resolveActualPrice(Game $game, int $foundPrice)
+    private function resolveActualPrice(Game $game, int $foundPrice): void
     {
         $actualPrice = $game->actualPrice()->firstOrCreate();
 
-        $actualPrice->price = $foundPrice;
+        $actualPrice->update([
+            'price' => $foundPrice,
+        ]);
 
-        $actualPrice->save();
+        $this->reducedPrices->push($game->appid);
     }
 
-    private function resolveLowestPrice(Game $game, int $foundPrice)
+    private function resolveLowestPrice(Game $game, int $foundPrice): void
     {
 
         $lowestPrice = $game->lowestPrice()->firstOrCreate(
             values: ['price' => $foundPrice]
         );
 
-        if ($foundPrice < $lowestPrice->price) {
-            $lowestPrice->update([
-                'price' => $foundPrice,
-            ]);
-
-            $this->reducedPrices->push($game->appid);
+        if ($foundPrice > $lowestPrice->price) {
+            return;
         }
 
-        return;
+        $lowestPrice->update([
+            'price' => $foundPrice,
+        ]);
+
+        $this->reducedPrices->push($game->appid);
     }
 
-    private function resolveHighestPrice(Game $game, int $foundPrice)
+    private function resolveHighestPrice(Game $game, int $foundPrice): void
     {
         $highestPrice = $game->highestPrice()->firstOrCreate(
             values: ['price' => $foundPrice]
@@ -69,7 +71,8 @@ class GamePriceUpdater
             return;
         }
 
-        $highestPrice->price = $foundPrice;
-        $highestPrice->save();
+        $highestPrice->update([
+            'price' => $foundPrice,
+        ]);
     }
 }
