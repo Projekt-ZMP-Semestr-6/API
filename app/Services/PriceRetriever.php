@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Http;
 class PriceRetriever
 {
     public function __construct(
-        protected ObservedGamesRetriever $retirever
+        protected ObservedGamesRetriever $retriever,
     ) {}
 
     public function get(Collection $games = null): Collection
     {
-        $games = $games ?? $this->retirever->get();
+        $games = $games ?? $this->retriever->get();
 
         $appIds = $this->getAppIds($games);
         $prices = $this->getPrices($appIds);
