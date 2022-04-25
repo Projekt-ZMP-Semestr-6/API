@@ -68,7 +68,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function observedGames(): BelongsToMany
     {
-        return $this->belongsToMany(Game::class, 'game_user');
+        return $this->belongsToMany(Game::class, 'game_user')->withTimestamps();
     }
 
     public function delete(): bool|null
