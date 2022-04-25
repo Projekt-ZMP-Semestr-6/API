@@ -41,8 +41,18 @@ class Game extends Model
         return $this->belongsToMany(User::class, 'game_user');
     }
 
-    public function price(): HasOne
+    public function actualPrice(): HasOne
     {
-        return $this->hasOne(Price::class);
+        return $this->hasOne(ActualPrice::class);
+    }
+
+    public function lowestPrice(): HasOne
+    {
+        return $this->hasOne(LowestPrice::class);
+    }
+
+    public function highestPrice(): HasOne
+    {
+        return $this->hasOne(HighestPrice::class);
     }
 }
