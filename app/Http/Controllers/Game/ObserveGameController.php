@@ -60,7 +60,7 @@ class ObserveGameController extends Controller
 
         $result = $user->observedGames()->syncWithoutDetaching($game);
 
-        if ($result['detached'] || $result ['updated']) {
+        if ($result['detached'] || $result['updated']) {
             throw new AttachingGameException;
         }
 
