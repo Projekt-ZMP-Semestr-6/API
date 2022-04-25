@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Game;
 use App\Services\GamePriceUpdater;
 use App\Services\PriceRetriever;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -54,9 +54,10 @@ use Illuminate\Http\Request;
  */
 class ObserveGameController extends Controller
 {
-    public function attach(Request $request, Game $game, PriceRetriever $retriever, GamePriceUpdater $updater): JsonResponse
+    public function attach(Request $request, Game $game): JsonResponse
     {
         $user = $request->user('sanctum');
+        $isObserved = $game->observedBy()->exists();
 
         $result = $user->observedGames()->syncWithoutDetaching($game);
 
@@ -64,10 +65,9 @@ class ObserveGameController extends Controller
             throw new AttachingGameException;
         }
 
-        $collection = EloquentCollection::make([$game]);
-
-        $prices = $retriever->get($collection);
-        $updater->update($prices);
+        if (! $isObserved) {
+            $this->updatePrice($game);
+        }
 
         return new JsonResponse();
     }
@@ -77,6 +77,7 @@ class ObserveGameController extends Controller
         $user = $request->user('sanctum');
 
         $detached = $user->observedGames()->detach($game);
+
         $stillAttached = in_array($game, $user->observedGames->toArray());
 
         if ($detached && $stillAttached) {
@@ -84,5 +85,16 @@ class ObserveGameController extends Controller
         }
 
         return new JsonResponse();
+    }
+
+    private function updatePrice(Game $game): void
+    {
+        $retriever = app()->make(PriceRetriever::class);
+        $updater = app()->make(GamePriceUpdater::class);
+
+        $games = Collection::empty()->push($game);
+
+        $prices = $retriever->get($games);
+        $updater->update($prices);
     }
 }
