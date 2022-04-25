@@ -54,14 +54,20 @@ use Illuminate\Http\Request;
  */
 class ObserveGameController extends Controller
 {
+    public function __construct(
+        protected PriceRetriever $retriever,
+        protected GamePriceUpdater $updater,
+    ) {}
+
     public function attach(Request $request, Game $game): JsonResponse
     {
         $user = $request->user('sanctum');
         $isObserved = $game->observedBy()->exists();
 
-        $result = $user->observedGames()->syncWithoutDetaching($game);
+        $initialPrice = $this->getInitialPrice($game);
+        $result = $user->observedGames()->syncWithPivotValues($game, ['initial_price' => $initialPrice], false);
 
-        if ($result['detached'] || $result['updated']) {
+        if ($result['detached']) {
             throw new AttachingGameException;
         }
 
@@ -89,12 +95,17 @@ class ObserveGameController extends Controller
 
     private function updatePrice(Game $game): void
     {
-        $retriever = app()->make(PriceRetriever::class);
-        $updater = app()->make(GamePriceUpdater::class);
-
         $games = Collection::empty()->push($game);
 
-        $prices = $retriever->get($games);
-        $updater->update($prices);
+        $prices = $this->retriever->get($games);
+        $this->updater->update($prices);
+    }
+
+    private function getInitialPrice(Game $game): int
+    {
+        $games = Collection::make([$game]);
+        $prices = $this->retriever->get($games);
+
+        return $prices->get($game->appid);
     }
 }
