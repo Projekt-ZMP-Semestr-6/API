@@ -29,12 +29,16 @@ class ShowFreebiesTest extends TestCase
         $this->uri = route('game.freebies');
         $this->user = User::factory()->create();
 
-        $this->expectedResponse = Game::hydrate(
+        $this->expectedResponse = Collection::make(
             json_decode(
                 file_get_contents('tests/Responses/game_freebies_200.json'),
                 true,
             )
         );
+
+        $this->expectedResponse->transform(function ($item, $key) {
+            return Game::make($item);
+        });
 
         $this->instance(
             ShowFreebiesService::class,
