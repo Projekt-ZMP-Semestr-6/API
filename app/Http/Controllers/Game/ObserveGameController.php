@@ -62,16 +62,21 @@ class ObserveGameController extends Controller
     public function attach(Request $request, Game $game): JsonResponse
     {
         $user = $request->user('sanctum');
-        $isObserved = $game->observedBy()->exists();
 
-        $initialPrice = $this->getInitialPrice($game);
-        $result = $user->observedGames()->syncWithPivotValues($game, ['initial_price' => $initialPrice], false);
+        $hasNoObservators = $game->observedBy()->doesntExist();
 
-        if ($result['detached']) {
-            throw new AttachingGameException;
+        $result = $user->observedGames()->syncWithoutDetaching($game);
+
+        if ($result['attached']) {
+            $user->observedGames()
+                ->updateExistingPivot($game->id, [
+                    'initial_price' => $this->getInitialPrice($game),
+                ]);
         }
 
-        if (! $isObserved) {
+        empty($result['detached']) ?? throw new AttachingGameException;
+
+        if ($hasNoObservators) {
             $this->updatePrice($game);
         }
 
@@ -103,7 +108,8 @@ class ObserveGameController extends Controller
 
     private function getInitialPrice(Game $game): int
     {
-        $games = Collection::make([$game]);
+        $games = Collection::empty()->push($game);
+
         $prices = $this->retriever->get($games);
 
         return $prices->get($game->appid);
