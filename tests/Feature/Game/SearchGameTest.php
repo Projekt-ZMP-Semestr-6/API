@@ -29,12 +29,16 @@ class SearchGameTest extends TestCase
         $this->uri = route('game.search', 'batman');
         $this->user = User::factory()->create();
 
-        $this->expectedResponse = Game::hydrate(
+        $this->expectedResponse = Collection::make(
             json_decode(
                 file_get_contents('tests/Responses/search_game_200.json'),
                 true,
             )
         );
+
+        $this->expectedResponse->transform(function ($item, $key) {
+            return Game::make($item);
+        });
 
         $this->instance(
             SearchGameService::class,
