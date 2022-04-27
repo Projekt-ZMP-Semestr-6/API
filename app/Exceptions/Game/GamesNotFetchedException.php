@@ -10,6 +10,6 @@ class GamesNotFetchedException extends Exception
 {
     public function __construct()
     {
-        parent::__construct('The problem occured while tried to fetch games', 500);
+        parent::__construct('The problem occurred while tried to fetch games', 500);
     }
 }

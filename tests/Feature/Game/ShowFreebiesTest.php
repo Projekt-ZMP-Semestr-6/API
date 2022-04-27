@@ -4,9 +4,11 @@ declare(strict_types = 1);
 
 namespace Tests\Feature\Game;
 
+use App\Models\Game;
 use App\Models\User;
+use App\Services\ShowFreebiesService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Collection;
 use Laravel\Sanctum\Sanctum;
 use Mockery;
 use Mockery\MockInterface;
@@ -33,6 +35,10 @@ class ShowFreebiesTest extends TestCase
                 true,
             )
         );
+
+        $this->expectedResponse->transform(function ($item, $key) {
+            return Game::make($item);
+        });
 
         $this->instance(
             ShowFreebiesService::class,

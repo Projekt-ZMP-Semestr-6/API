@@ -572,6 +572,35 @@
                 ]
             }
         },
+        "/api/observe/{appid}": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Observe game",
+                "description": "Observe game's price",
+                "operationId": "observeGame",
+                "parameters": [
+                    {
+                        "name": "appid",
+                        "in": "path",
+                        "description": "Game's appId",
+                        "required": true,
+                        "example": "21000"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/search/{gameName}": {
             "get": {
                 "tags": [
@@ -998,7 +1027,7 @@
             "Game": {
                 "properties": {
                     "id": {
-                        "type": "string",
+                        "type": "integer",
                         "example": "487"
                     },
                     "name": {
@@ -1006,7 +1035,7 @@
                         "example": "LEGO® Batman™: The Videogame"
                     },
                     "appid": {
-                        "type": "string",
+                        "type": "integer",
                         "example": "21000"
                     },
                     "last_modified": {
@@ -1033,6 +1062,12 @@
                     "email": {
                         "type": "email",
                         "example": "test@test.com"
+                    },
+                    "observedGames": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Game"
+                        }
                     }
                 },
                 "type": "object"

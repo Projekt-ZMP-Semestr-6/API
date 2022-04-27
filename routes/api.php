@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Game\FreebiesController;
 use App\Http\Controllers\Game\GameDetailsController;
+use App\Http\Controllers\Game\ObserveGameController;
 use App\Http\Controllers\Game\SearchGameController;
 use App\Http\Controllers\User\UpdateEmailController;
 use App\Http\Controllers\User\UpdateNameController;
@@ -56,11 +57,9 @@ Route::middleware(['auth:sanctum', 'verified'])
     ->as('user.')
     ->group(function () {
         Route::get('/', UserController::class)->name('info');
-
         Route::put('password', UpdatePasswordController::class)->name('update.password');
         Route::put('name', UpdateNameController::class)->name('update.name');
         Route::put('email', UpdateEmailController::class)->name('update.email');
-
         Route::delete('delete', DeleteAccountController::class)->name('delete');
     });
 
@@ -70,4 +69,6 @@ Route::middleware(['auth:sanctum', 'verified'])
         Route::get('search/{gameName}', SearchGameController::class)->name('search');
         Route::get('game/{appId}', GameDetailsController::class)->name('details');
         Route::get('freebies', FreebiesController::class)->name('freebies');
+        Route::get('attach/{game:appid}', [ObserveGameController::class, 'attach'])->name('observe.attach');
+        Route::get('detach/{game:appid}', [ObserveGameController::class, 'detach'])->name('observe.detach');
     });

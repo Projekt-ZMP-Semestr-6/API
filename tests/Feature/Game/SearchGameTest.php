@@ -48,7 +48,7 @@ class SearchGameTest extends TestCase
         );
     }
 
-    public function test_user_can_search_for_game()
+    public function test_user_can_search_for_game(): void
     {
         Sanctum::actingAs($this->user);
 

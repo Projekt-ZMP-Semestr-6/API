@@ -8,6 +8,7 @@ use App\Traits\HasUuid;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -19,7 +20,13 @@ use Laravel\Sanctum\HasApiTokens;
  * @OA\Property(property="id", type="uuid", example="95c0fbe0-2ae6-4a99-a41c-14b0a68cf057"),
  * @OA\Property(property="name", type="string", example="Greg"),
  * @OA\Property(property="email", type="email", example="test@test.com"),
- * )
+ * @OA\Property(
+ *      property="observedGames",
+ *      type="array",
+ *      @OA\Items(
+ *          ref="#/components/schemas/Game"
+ *      ),
+ * ))
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -58,6 +65,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $dispatchesEvents = [
         'created' => Registered::class,
     ];
+
+    public function observedGames(): BelongsToMany
+    {
+        return $this->belongsToMany(Game::class, 'game_user')->withTimestamps();
+    }
 
     public function delete(): bool|null
     {
