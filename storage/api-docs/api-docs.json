@@ -572,14 +572,43 @@
                 ]
             }
         },
-        "/api/observe/{appid}": {
+        "/api/attach/{appid}": {
             "get": {
                 "tags": [
                     "Game"
                 ],
-                "summary": "Observe game",
-                "description": "Observe game's price",
-                "operationId": "observeGame",
+                "summary": "Attach game",
+                "description": "Attach game to observing its price",
+                "operationId": "attachGame",
+                "parameters": [
+                    {
+                        "name": "appid",
+                        "in": "path",
+                        "description": "Game's appId",
+                        "required": true,
+                        "example": "21000"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/detach/{appid}": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Detach game",
+                "description": "Detach game from observing its price",
+                "operationId": "detachGame",
                 "parameters": [
                     {
                         "name": "appid",
