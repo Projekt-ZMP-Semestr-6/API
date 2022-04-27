@@ -4,9 +4,11 @@ declare(strict_types = 1);
 
 namespace Tests\Feature\Game;
 
+use App\Models\Game;
 use App\Models\User;
+use App\Services\ShowFreebiesService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Collection;
 use Laravel\Sanctum\Sanctum;
 use Mockery;
 use Mockery\MockInterface;
@@ -27,7 +29,7 @@ class ShowFreebiesTest extends TestCase
         $this->uri = route('game.freebies');
         $this->user = User::factory()->create();
 
-        $this->expectedResponse = Collection::make(
+        $this->expectedResponse = Game::hydrate(
             json_decode(
                 file_get_contents('tests/Responses/game_freebies_200.json'),
                 true,
