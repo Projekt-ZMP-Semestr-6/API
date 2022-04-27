@@ -29,16 +29,12 @@ class SearchGameTest extends TestCase
         $this->uri = route('game.search', 'batman');
         $this->user = User::factory()->create();
 
-        $this->expectedResponse = Collection::make(
+        $this->expectedResponse = Game::hydrate(
             json_decode(
                 file_get_contents('tests/Responses/search_game_200.json'),
                 true,
             )
         );
-
-        $this->expectedResponse->transform(function ($item, $key) {
-            return Game::make($item);
-        });
 
         $this->instance(
             SearchGameService::class,
@@ -48,7 +44,7 @@ class SearchGameTest extends TestCase
         );
     }
 
-    public function test_user_can_search_for_game()
+    public function test_user_can_search_for_game(): void
     {
         Sanctum::actingAs($this->user);
 
