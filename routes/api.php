@@ -57,11 +57,9 @@ Route::middleware(['auth:sanctum', 'verified'])
     ->as('user.')
     ->group(function () {
         Route::get('/', UserController::class)->name('info');
-
         Route::put('password', UpdatePasswordController::class)->name('update.password');
         Route::put('name', UpdateNameController::class)->name('update.name');
         Route::put('email', UpdateEmailController::class)->name('update.email');
-
         Route::delete('delete', DeleteAccountController::class)->name('delete');
     });
 
