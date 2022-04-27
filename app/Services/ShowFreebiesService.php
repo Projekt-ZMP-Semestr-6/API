@@ -75,8 +75,8 @@ class ShowFreebiesService
     protected function getParams(): array
     {
         return [
-            'maxprice'=>'free',
-            'specials'=> '1',
+            'maxprice' => 'free',
+            'specials' => '1',
             'category1' => '998',
         ];
     }
