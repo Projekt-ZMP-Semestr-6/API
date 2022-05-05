@@ -39,8 +39,6 @@ class GamePriceUpdater
         $actualPrice->update([
             'price' => $foundPrice,
         ]);
-
-        $this->reducedPrices->push($game->appid);
     }
 
     private function resolveLowestPrice(Game $game, int $foundPrice): void
