@@ -20,6 +20,6 @@ class CheckPrices extends Command
 
         $changedGames = $updater->update($prices);
 
-        //$notifier->notify($reducedPrices);
+        //$notifier->notify($changedGames);
     }
 }
