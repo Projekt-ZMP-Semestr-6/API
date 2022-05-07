@@ -57,9 +57,4 @@ class GamesFetcher
             );
         });
     }
-
-    public function getLastAppid(): int
-    {
-        return $this->lastAppid;
-    }
 }
