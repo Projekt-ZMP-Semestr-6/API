@@ -10,9 +10,9 @@ use Illuminate\Support\Collection;
 class GamePriceUpdater
 {
     public function __construct(
-        protected Collection $reducedPrices
+        protected Collection $changedGames
     ) {
-        $this->reducedPrices = Collection::make();
+        $this->changedGames = Collection::make();
     }
 
     public function update(Collection $prices): Collection
@@ -29,16 +29,24 @@ class GamePriceUpdater
             $this->resolveHighestPrice($game, $foundPrice);
         }
 
-        return $this->reducedPrices;
+        return $this->changedGames;
     }
 
     private function resolveActualPrice(Game $game, int $foundPrice): void
     {
-        $actualPrice = $game->actualPrice()->firstOrCreate();
+        $actualPrice = $game->actualPrice()->firstOrCreate(
+            values: ['price' => $foundPrice],
+        );
+
+        if ($foundPrice === $actualPrice->price) {
+            return;
+        }
 
         $actualPrice->update([
             'price' => $foundPrice,
         ]);
+
+        $this->changedGames->push($actualPrice);
     }
 
     private function resolveLowestPrice(Game $game, int $foundPrice): void
@@ -55,8 +63,6 @@ class GamePriceUpdater
         $lowestPrice->update([
             'price' => $foundPrice,
         ]);
-
-        $this->reducedPrices->push($game->appid);
     }
 
     private function resolveHighestPrice(Game $game, int $foundPrice): void
