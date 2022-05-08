@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Services;
 
+use App\Events\PriceChanged;
 use App\Models\Game;
 use Illuminate\Support\Collection;
 
@@ -15,7 +16,7 @@ class GamePriceUpdater
         $this->changedGames = Collection::make();
     }
 
-    public function update(Collection $prices): Collection
+    public function update(Collection $prices): void
     {
         $appids = $prices->keys();
         $games = Game::whereIn('appid', $appids)->get();
@@ -24,29 +25,29 @@ class GamePriceUpdater
         {
             $foundPrice = (int) $prices->get($game->appid);
 
-            $this->resolveActualPrice($game, $foundPrice);
+            $hasChanged = $this->resolveActualPrice($game, $foundPrice);
             $this->resolveLowestPrice($game, $foundPrice);
             $this->resolveHighestPrice($game, $foundPrice);
-        }
 
-        return $this->changedGames;
+            if ($hasChanged) {
+                event(new PriceChanged($game));
+            }
+        }
     }
 
-    private function resolveActualPrice(Game $game, int $foundPrice): void
+    private function resolveActualPrice(Game $game, int $foundPrice): bool
     {
         $actualPrice = $game->actualPrice()->firstOrCreate(
             values: ['price' => $foundPrice],
         );
 
         if ($foundPrice === $actualPrice->price) {
-            return;
+            return false;
         }
 
-        $actualPrice->update([
+        return $actualPrice->update([
             'price' => $foundPrice,
         ]);
-
-        $this->changedGames->push($actualPrice);
     }
 
     private function resolveLowestPrice(Game $game, int $foundPrice): void
