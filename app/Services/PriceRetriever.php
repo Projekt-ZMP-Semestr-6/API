@@ -29,9 +29,7 @@ class PriceRetriever
         $content = $response->collect();
 
         $content->transform(function ($item) {
-            $finalPrice = $item['data']['price_overview']['final'] ?? 0;
-
-            return $finalPrice;
+            return $item['data']['price_overview']['final'] ?? 0;
         });
 
         return $content;
@@ -44,10 +42,10 @@ class PriceRetriever
             ']' => '',
         ];
 
-        $appIds = $games->pluck('appid')->__toString();
-        $appIds = strtr($appIds, $charsToReplace);
-
-        return $appIds;
+        return strtr(
+            $games->pluck('appid')->__toString(),
+            $charsToReplace
+        );
     }
 
     protected function getParams(string $appIds): array
