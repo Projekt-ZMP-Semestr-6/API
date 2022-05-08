@@ -18,8 +18,6 @@ class CheckPrices extends Command
     {
         $prices = $retriever->get();
 
-        $changedGames = $updater->update($prices);
-
-        //$notifier->notify($changedGames);
+        $updater->update($prices);
     }
 }
