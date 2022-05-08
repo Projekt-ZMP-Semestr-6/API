@@ -19,13 +19,19 @@ class PriceChanged implements ShouldBroadcast
 
     public PriceNotificationResource $content;
 
-    public function __construct(Game $game)
+    public function __construct(Game $game, array $lastPrice)
     {
+        $game->lastPrice = $lastPrice;
         $this->content = new PriceNotificationResource($game);
     }
 
     public function broadcastOn(): Channel|PrivateChannel|array
     {
         return new PrivateChannel('price.notify.' . $this->content->appid);
+    }
+
+    public function broadcastAs(): string
+    {
+        return 'price.changed';
     }
 }

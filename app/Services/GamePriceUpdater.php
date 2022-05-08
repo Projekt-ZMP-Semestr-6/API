@@ -11,7 +11,8 @@ use Illuminate\Support\Collection;
 class GamePriceUpdater
 {
     public function __construct(
-        protected Collection $changedGames
+        protected Collection $changedGames,
+        protected array $lastPrice = [],
     ) {
         $this->changedGames = Collection::make();
     }
@@ -23,6 +24,7 @@ class GamePriceUpdater
 
         foreach($games as $game)
         {
+            $this->lastPrice = [];
             $foundPrice = (int) $prices->get($game->appid);
 
             $hasChanged = $this->resolveActualPrice($game, $foundPrice);
@@ -30,7 +32,7 @@ class GamePriceUpdater
             $this->resolveHighestPrice($game, $foundPrice);
 
             if ($hasChanged) {
-                event(new PriceChanged($game));
+                event(new PriceChanged($game, $this->lastPrice));
             }
         }
     }
@@ -44,6 +46,9 @@ class GamePriceUpdater
         if ($foundPrice === $actualPrice->price) {
             return false;
         }
+
+        $this->lastPrice['price'] = $actualPrice->price;
+        $this->lastPrice['date'] = $actualPrice->updated_at;
 
         return $actualPrice->update([
             'price' => $foundPrice,
