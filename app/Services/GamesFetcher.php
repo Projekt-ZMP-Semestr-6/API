@@ -28,14 +28,12 @@ class GamesFetcher
 
     protected function fetch(): Response
     {
-        $response = Http::get('https://api.steampowered.com/IStoreService/GetAppList/v1/', [
+        return Http::get('https://api.steampowered.com/IStoreService/GetAppList/v1/', [
             'key' => env('API_KEY'),
             'max_results' => 50000,
             'last_appid' => $this->lastAppid,
             'cc' => 'en',
         ]);
-
-        return $response;
     }
 
     protected function processResponse(Response $response): bool
@@ -51,10 +49,12 @@ class GamesFetcher
     protected function persist(): void
     {
         $this->games->map(function ($item) {
-            Game::updateOrCreate(
-                array('appid' => $item['appid']),
-                $item,
-            );
+            if (strlen($item['name']) <= 255) {
+                Game::updateOrCreate(
+                    array('appid' => $item['appid']),
+                    $item,
+                );
+            }
         });
     }
 }
