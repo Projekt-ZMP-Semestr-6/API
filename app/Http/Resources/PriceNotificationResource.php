@@ -16,12 +16,15 @@ class PriceNotificationResource extends JsonResource
      */
     public function toArray($request): array
     {
+        $lastPrice = $this->lastPrice;
         $actualPrice = $this->actualPrice;
         $lowestPrice = $this->lowestPrice;
         $highestPrice = $this->highestPrice;
 
         return [
             'appid' => $this->appid,
+            'last_price' => $lastPrice['price'],
+            'last_price_date' => $lastPrice['date'],
             'new_price' => $actualPrice->price,
             'lowest_price' => $lowestPrice->price,
             'lowest_price_date' => $lowestPrice->updated_at,

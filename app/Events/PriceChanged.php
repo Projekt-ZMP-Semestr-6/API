@@ -19,8 +19,9 @@ class PriceChanged implements ShouldBroadcast
 
     public PriceNotificationResource $content;
 
-    public function __construct(Game $game)
+    public function __construct(Game $game, array $lastPrice)
     {
+        $game->lastPrice = $lastPrice;
         $this->content = new PriceNotificationResource($game);
     }
 
