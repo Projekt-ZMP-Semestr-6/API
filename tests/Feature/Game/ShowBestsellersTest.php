@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\Feature\Game;
 
 use App\Models\Game;
@@ -7,7 +9,6 @@ use App\Models\User;
 use App\Services\ShowBestsellersService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Mockery;
 use Mockery\MockInterface;
