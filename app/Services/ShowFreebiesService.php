@@ -22,9 +22,7 @@ class ShowFreebiesService
         $nodes = $this->getNodes($document);
         $appids = $this->getAppIdsFromNodes($nodes);
 
-        $games = $this->getGames($appids);
-
-        return $games;
+        return $this->getGames($appids);
     }
 
     protected function parseContent(Response $response): DOMDocument
@@ -67,9 +65,7 @@ class ShowFreebiesService
 
     protected function getGames(array $appids): Collection
     {
-        $games = Game::whereIn('appid', $appids)->get();
-
-        return $games;
+        return Game::whereIn('appid', $appids)->get();
     }
 
     protected function getParams(): array
