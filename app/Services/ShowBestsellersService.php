@@ -12,11 +12,11 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
-class ShowFreebiesService
+class ShowBestsellersService
 {
-    public function get(): Collection
+    public function get()
     {
-        $response = Http::get('https://store.steampowered.com/search/', $this->getParams());
+        $response = Http::get('https://store.steampowered.com/search', $this->getParams());
 
         $document = $this->parseContent($response);
         $nodes = $this->getNodes($document);
@@ -44,7 +44,7 @@ class ShowFreebiesService
         return $nodes;
     }
 
-    protected function getAppIdsFromNodes(DOMNodeList $nodes): array
+    private function getAppIdsFromNodes(DOMNodeList $nodes): array
     {
         $appids = [];
 
@@ -63,7 +63,7 @@ class ShowFreebiesService
         return $appids;
     }
 
-    protected function getGames(array $appids): Collection
+    private function getGames(array $appids): Collection
     {
         return Game::whereIn('appid', $appids)->get();
     }
@@ -71,7 +71,7 @@ class ShowFreebiesService
     protected function getParams(): array
     {
         return [
-            'maxprice' => 'free',
+            'filter' => 'topsellers',
             'specials' => '1',
             'category1' => '998',
         ];

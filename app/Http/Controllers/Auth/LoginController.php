@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Hash;
  *      description="Pass user's credentials to log in",
  *      @OA\JsonContent(
  *          required={"email", "password", "device_name"},
- *          @OA\Property(property="email", type="email", example="test@test.com"),
+ *          @OA\Property(property="email", type="email", example="test@email.com"),
  *          @OA\Property(property="password", type="password", example="password123"),
  *          @OA\Property(property="device_name", type="string", ref="#/components/schemas/DeviceName"),
  *      ),
@@ -43,8 +43,7 @@ use Illuminate\Support\Facades\Hash;
  *              @OA\Schema(ref="#/components/schemas/verifyEmail"),
  *          },
  *      )
- * ),
- * )
+ * ))
  *
  * @OA\Schema(
  * schema="DeviceName",
