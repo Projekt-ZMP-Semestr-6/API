@@ -125,7 +125,7 @@
                                 "properties": {
                                     "email": {
                                         "type": "email",
-                                        "example": "test@test.com"
+                                        "example": "test@email.com"
                                     },
                                     "password": {
                                         "type": "password",
@@ -368,6 +368,36 @@
                         "description": "Unprocessable Content"
                     }
                 }
+            }
+        },
+        "/api/bestsellers": {
+            "get": {
+                "tags": [
+                    "Game"
+                ],
+                "summary": "Show bestsellers",
+                "description": "Get list of current bestsellers",
+                "operationId": "gameBestsellers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Game"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/freebies": {
