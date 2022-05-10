@@ -10,14 +10,14 @@ use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Get(
- * path="/api/game/{gameId}",
+ * path="/api/game/{appId}",
  * summary="Game details",
  * description="Get deal's details for specific game",
  * operationId="gameDetails",
  * tags={"Game"},
  * security={{"sanctum": {}}},
  * @OA\Parameter(
- *      name="gameId",
+ *      name="appId",
  *      in="path",
  *      description="Game's appId",
  *      required=true,
