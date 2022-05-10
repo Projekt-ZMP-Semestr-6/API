@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Http;
 
 class ShowBestsellersService
 {
-    public function get()
+    public function get(): Collection
     {
-        $response = Http::get('https://store.steampowered.com/search', $this->getParams());
+        $response = Http::get('https://store.steampowered.com/search/', $this->getParams());
 
         $document = $this->parseContent($response);
         $nodes = $this->getNodes($document);
@@ -44,7 +44,7 @@ class ShowBestsellersService
         return $nodes;
     }
 
-    private function getAppIdsFromNodes(DOMNodeList $nodes): array
+    protected function getAppIdsFromNodes(DOMNodeList $nodes): array
     {
         $appids = [];
 
@@ -63,7 +63,7 @@ class ShowBestsellersService
         return $appids;
     }
 
-    private function getGames(array $appids): Collection
+    protected function getGames(array $appids): Collection
     {
         return Game::whereIn('appid', $appids)->get();
     }
