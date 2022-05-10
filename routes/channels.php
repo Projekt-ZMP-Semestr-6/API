@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Broadcast;
 | used to check if an authenticated user can listen to the channel.
 |
 */
-Broadcast::channel('private-price.notify.{appid}', function (User $user, $appid) {
+Broadcast::channel('private-price.notify.{appid}', function (User $user, int $appid) {
     return $user->observedGames()->whereIn('appid', $appid)->exists();
 });
