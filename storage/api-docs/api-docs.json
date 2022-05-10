@@ -430,7 +430,7 @@
                 ]
             }
         },
-        "/api/game/{gameId}": {
+        "/api/game/{appId}": {
             "get": {
                 "tags": [
                     "Game"
@@ -440,7 +440,7 @@
                 "operationId": "gameDetails",
                 "parameters": [
                     {
-                        "name": "gameId",
+                        "name": "appId",
                         "in": "path",
                         "description": "Game's appId",
                         "required": true,

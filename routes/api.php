@@ -10,6 +10,7 @@ use App\Http\Controllers\Game\FreebiesController;
 use App\Http\Controllers\Game\GameDetailsController;
 use App\Http\Controllers\Game\ObserveGameController;
 use App\Http\Controllers\Game\SearchGameController;
+use App\Http\Controllers\SimulateChangesController;
 use App\Http\Controllers\User\DeleteAccountController;
 use App\Http\Controllers\User\UpdateEmailController;
 use App\Http\Controllers\User\UpdateNameController;
@@ -74,3 +75,6 @@ Route::middleware(['auth:sanctum', 'verified'])
         Route::get('attach/{game:appid}', [ObserveGameController::class, 'attach'])->name('observe.attach');
         Route::get('detach/{game:appid}', [ObserveGameController::class, 'detach'])->name('observe.detach');
     });
+
+Route::middleware(['auth:sanctum', 'verified'])
+    ->get('/fire/{price}', SimulateChangesController::class);

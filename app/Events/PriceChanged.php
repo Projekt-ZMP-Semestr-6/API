@@ -27,7 +27,7 @@ class PriceChanged implements ShouldBroadcast
 
     public function broadcastOn(): Channel|PrivateChannel|array
     {
-        return new PrivateChannel('price.notify.' . $this->content->appid);
+        return new Channel('price.notify.' . $this->content->appid);
     }
 
     public function broadcastAs(): string
