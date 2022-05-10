@@ -74,6 +74,7 @@ class ShowBestsellersService
             'filter' => 'topsellers',
             'specials' => '1',
             'category1' => '998',
+            'ignore_preferences' => 1,
         ];
     }
 }
