@@ -4,11 +4,10 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\User;
 
-use App\Exceptions\User\NameNotUpdatedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateNameRequest;
+use App\Services\User\NameUpdater;
 use Illuminate\Http\JsonResponse;
-use Throwable;
 
 /**
  * @OA\Put(
@@ -54,17 +53,12 @@ use Throwable;
  */
 class UpdateNameController extends Controller
 {
-    public function __invoke(UpdateNameRequest $request): JsonResponse
+    public function __invoke(UpdateNameRequest $request, NameUpdater $updater): JsonResponse
     {
-        $newName = $request->validated('name');
         $user = $request->user('sanctum');
+        $newName = $request->validated('name');
 
-        try {
-            $user->name = $newName;
-            $user->save();
-        } catch (Throwable) {
-            throw new NameNotUpdatedException;
-        }
+        $updater->update($user, $newName);
 
         return new JsonResponse('Name updated!');
     }
