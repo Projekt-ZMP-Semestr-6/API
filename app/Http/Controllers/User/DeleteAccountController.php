@@ -4,11 +4,10 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\User;
 
-use App\Exceptions\User\UserNotDeletedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\DeleteAccountRequest;
+use App\Services\User\AccountDeleter;
 use Illuminate\Http\JsonResponse;
-use Throwable;
 
 /**
  * @OA\Delete(
@@ -54,13 +53,11 @@ use Throwable;
  */
 class DeleteAccountController extends Controller
 {
-    public function __invoke(DeleteAccountRequest $request): JsonResponse
+    public function __invoke(DeleteAccountRequest $request, AccountDeleter $deleter): JsonResponse
     {
-        try {
-            $request->user('sanctum')->delete();
-        } catch (Throwable) {
-            throw new UserNotDeletedException;
-        }
+        $user = $request->user('sanctum');
+
+        $deleter->delete($user);
 
         return new JsonResponse('Account deleted!');
     }
