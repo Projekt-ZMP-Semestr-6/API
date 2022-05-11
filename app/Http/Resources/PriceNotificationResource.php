@@ -22,6 +22,7 @@ class PriceNotificationResource extends JsonResource
         $highestPrice = $this->highestPrice;
 
         return [
+            'name' => $this->name,
             'appid' => $this->appid,
             'last_price' => $lastPrice['price'],
             'last_price_date' => $lastPrice['date'],
