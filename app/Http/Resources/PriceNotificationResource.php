@@ -24,12 +24,12 @@ class PriceNotificationResource extends JsonResource
         return [
             'name' => $this->name,
             'appid' => $this->appid,
-            'last_price' => $lastPrice['price'],
+            'last_price' => ($lastPrice['price'] / 100),
             'last_price_date' => $lastPrice['date'],
-            'new_price' => $actualPrice->price,
-            'lowest_price' => $lowestPrice->price,
+            'new_price' => ($actualPrice->price / 100),
+            'lowest_price' => ($lowestPrice->price / 100),
             'lowest_price_date' => $lowestPrice->updated_at,
-            'highest_price' => $highestPrice->price,
+            'highest_price' => ($highestPrice->price / 100),
             'highest_price_date' => $highestPrice->updated_at,
         ];
     }
