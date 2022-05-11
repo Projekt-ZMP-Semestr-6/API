@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Console\Commands;
 
-use App\Services\GamesFetcher;
+use App\Services\Game\GamesFetcher;
 use Illuminate\Console\Command;
 
 class FetchGames extends Command
