@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Services;
+namespace App\Services\Game;
 
 use App\Exceptions\Game\GameDetailsNotRetrievedException;
 use Illuminate\Http\Client\Response;
@@ -19,16 +19,15 @@ class ShowGameService
             'cc' => 'en',
         ]);
 
-        $gameDetails = $this->processResponse($response, $appId);
-
-        return $gameDetails;
+        return $this->processResponse($response, $appId);
     }
 
     protected function processResponse(Response $response, int $appId): Collection
     {
-        $response->collect("$appId")->get('success') ?? throw new GameDetailsNotRetrievedException;
+        $response->collect("$appId")->get('success')
+                    ?? throw new GameDetailsNotRetrievedException;
 
-        $gameDetails = $response->collect("$appId.data")->only([
+        return $response->collect("$appId.data")->only([
             'type',
             'name',
             'steam_appid',
@@ -46,7 +45,5 @@ class ShowGameService
             'background',
             'screenshots',
         ]);
-
-        return $gameDetails;
     }
 }

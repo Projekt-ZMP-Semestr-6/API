@@ -4,13 +4,10 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Game;
 
-use App\Exceptions\Game\AttachingGameException;
-use App\Exceptions\Game\DetachingGameException;
 use App\Http\Controllers\Controller;
 use App\Models\Game;
-use App\Services\GamePriceUpdater;
-use App\Services\PriceRetriever;
-use Illuminate\Database\Eloquent\Collection;
+use App\Services\Game\GameAttacher;
+use App\Services\Game\GameDetacher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -54,64 +51,21 @@ use Illuminate\Http\Request;
  */
 class ObserveGameController extends Controller
 {
-    public function __construct(
-        protected PriceRetriever $retriever,
-        protected GamePriceUpdater $updater,
-    ) {}
-
-    public function attach(Request $request, Game $game): JsonResponse
+    public function attach(Request $request, Game $game, GameAttacher $attacher): JsonResponse
     {
         $user = $request->user('sanctum');
 
-        $hasNoObservators = $game->observedBy()->doesntExist();
-
-        $result = $user->observedGames()->syncWithoutDetaching($game);
-
-        if ($result['attached']) {
-            $user->observedGames()
-                ->updateExistingPivot($game->id, [
-                    'initial_price' => $this->getInitialPrice($game),
-                ]);
-        }
-
-        empty($result['detached']) ?? throw new AttachingGameException;
-
-        if ($hasNoObservators) {
-            $this->updatePrice($game);
-        }
+        $attacher->attach($user, $game);
 
         return new JsonResponse();
     }
 
-    public function detach(Request $request, Game $game): JsonResponse
+    public function detach(Request $request, Game $game, GameDetacher $detacher): JsonResponse
     {
         $user = $request->user('sanctum');
 
-        $detached = $user->observedGames()->detach($game);
-
-        $stillAttached = in_array($game, $user->observedGames->toArray());
-
-        if ($detached && $stillAttached) {
-            throw new DetachingGameException;
-        }
+        $detacher->detach($user, $game);
 
         return new JsonResponse();
-    }
-
-    private function updatePrice(Game $game): void
-    {
-        $games = Collection::empty()->push($game);
-
-        $prices = $this->retriever->get($games);
-        $this->updater->update($prices);
-    }
-
-    private function getInitialPrice(Game $game): int
-    {
-        $games = Collection::empty()->push($game);
-
-        $prices = $this->retriever->get($games);
-
-        return $prices->get($game->appid);
     }
 }

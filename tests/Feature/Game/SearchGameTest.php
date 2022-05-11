@@ -6,7 +6,7 @@ namespace Tests\Feature\Game;
 
 use App\Models\Game;
 use App\Models\User;
-use App\Services\SearchGameService;
+use App\Services\Game\SearchGameService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;

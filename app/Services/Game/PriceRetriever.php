@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Services;
+namespace App\Services\Game;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;

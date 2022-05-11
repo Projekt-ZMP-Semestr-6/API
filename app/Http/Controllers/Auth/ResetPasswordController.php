@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\SendResetPasswordNotificationRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Services\User\PasswordUpdater;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -99,28 +100,21 @@ class ResetPasswordController extends Controller
             $request->safe()->only('email')
         );
 
-        switch($status) {
-            case Password::RESET_LINK_SENT:
-                return new JsonResponse(['status' => __($status)]);
-
-            case Password::RESET_THROTTLED:
-                return new JsonResponse(['status' => __($status)], 429);
-
-            default:
-                return new JsonResponse(['email' => __($status)], 422);
-        }
+        return match ($status) {
+            Password::RESET_LINK_SENT => new JsonResponse(['status' => __($status)]),
+            Password::RESET_THROTTLED => new JsonResponse(['status' => __($status)], 429),
+            default => new JsonResponse(['email' => __($status)], 422),
+        };
     }
 
-    public function resetPassword(ResetPasswordRequest $request): JsonResponse
+    public function resetPassword(ResetPasswordRequest $request, PasswordUpdater $updater): JsonResponse
     {
         $validated = $request->validated();
 
-        $callback = function($user, $password) {
-            $password = ['password' => Hash::make($password)];
-            $user->forceFill($password)->setRememberToken(Str::random(60));
-            $user->save();
+        $callback = function($user, $password) use ($updater) {
+            $updater->update($user, $password);
 
-            event(new PasswordReset($user));
+            event(new PasswordReset($user->refresh()));
         };
 
         $status = Password::reset($validated, $callback);

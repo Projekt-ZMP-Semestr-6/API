@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\Game;
 
 use App\Http\Controllers\Controller;
-use App\Services\ShowGameService;
+use App\Services\Game\ShowGameService;
 use Illuminate\Http\JsonResponse;
 
 /**

@@ -6,8 +6,8 @@ namespace Tests\Feature\Game;
 
 use App\Models\Game;
 use App\Models\User;
-use App\Services\GamePriceUpdater;
-use App\Services\PriceRetriever;
+use App\Services\Game\GamePriceUpdater;
+use App\Services\Game\PriceRetriever;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\Sanctum;

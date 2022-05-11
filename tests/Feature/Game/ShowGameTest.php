@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Tests\Feature\Game;
 
 use App\Models\User;
-use App\Services\ShowGameService;
+use App\Services\Game\ShowGameService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\Sanctum;

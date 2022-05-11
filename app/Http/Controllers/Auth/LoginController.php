@@ -4,12 +4,10 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\Auth\UserNotLoggedInException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Models\User;
+use App\Services\Auth\UserLogin;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * @OA\Post(
@@ -92,19 +90,11 @@ use Illuminate\Support\Facades\Hash;
  */
 class LoginController extends Controller
 {
-    public function __invoke(LoginRequest $request): JsonResponse
+    public function __invoke(LoginRequest $request, UserLogin $service): JsonResponse
     {
         $validated = $request->validated();
-        $deviceName = $validated['device_name'];
 
-        $user = User::whereEmail($validated['email'])->first();
-
-        if(!$user || !Hash::check($validated['password'], $user->password)) {
-            throw new UserNotLoggedInException();
-        }
-
-        $user->tokens->where('name', $deviceName)->first()?->delete();
-        $token = $user->createToken($deviceName)->plainTextToken;
+        $token = $service->login($validated);
 
         return new JsonResponse(['Bearer' => $token]);
     }

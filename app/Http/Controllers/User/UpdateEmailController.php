@@ -4,11 +4,10 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\User;
 
-use App\Exceptions\User\EmailNotUpdatedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateEmailRequest;
+use App\Services\User\EmailUpdater;
 use Illuminate\Http\JsonResponse;
-use Throwable;
 
 /**
  * @OA\Put(
@@ -59,17 +58,12 @@ use Throwable;
  */
 class UpdateEmailController extends Controller
 {
-    public function __invoke(UpdateEmailRequest $request): JsonResponse
+    public function __invoke(UpdateEmailRequest $request, EmailUpdater $updater): JsonResponse
     {
-        $newEmail = $request->validated('email');
         $user = $request->user('sanctum');
+        $newEmail = $request->validated('email');
 
-        try {
-            $user->email = $newEmail;
-            $user->save();
-        } catch (Throwable) {
-            throw new EmailNotUpdatedException;
-        }
+        $updater->update($user, $newEmail);
 
         return new JsonResponse('Email updated!');
     }

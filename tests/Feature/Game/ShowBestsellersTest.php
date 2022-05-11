@@ -6,7 +6,7 @@ namespace Tests\Feature\Game;
 
 use App\Models\Game;
 use App\Models\User;
-use App\Services\ShowBestsellersService;
+use App\Services\Game\ShowBestsellersService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;

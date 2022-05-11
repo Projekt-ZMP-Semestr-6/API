@@ -37,8 +37,8 @@ class UserController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
     {
-        $user = $request->user('sanctum');
-        $user ?? throw new UserNotFoundException;
+        $user = $request->user('sanctum')
+                ?? throw new UserNotFoundException;
 
         $user = new UserResource($user);
 

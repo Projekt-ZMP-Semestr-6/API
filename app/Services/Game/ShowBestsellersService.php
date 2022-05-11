@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Services;
+namespace App\Services\Game;
 
 use App\Models\Game;
 use DOMDocument;
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
-class ShowFreebiesService
+class ShowBestsellersService
 {
     public function get(): Collection
     {
@@ -71,9 +71,10 @@ class ShowFreebiesService
     protected function getParams(): array
     {
         return [
-            'maxprice' => 'free',
+            'filter' => 'topsellers',
             'specials' => '1',
             'category1' => '998',
+            'ignore_preferences' => 1,
         ];
     }
 }
