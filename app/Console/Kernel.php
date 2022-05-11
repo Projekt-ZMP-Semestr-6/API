@@ -17,11 +17,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(FetchGames::class)
-            ->withoutOverlapping(10)
-            ->runInBackground()
-            ->dailyAt('1:00')
-            ->days([Schedule::MONDAY, Schedule::THURSDAY]);
+//        $schedule->command(FetchGames::class)
+//            ->withoutOverlapping(10)
+//            ->runInBackground()
+//            ->dailyAt('1:00')
+//            ->days([Schedule::MONDAY, Schedule::THURSDAY]);
 
         $schedule->command(CheckPrices::class)
             ->withoutOverlapping(15)
