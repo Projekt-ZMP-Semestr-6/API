@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Game;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GameResource;
-use App\Services\SearchGameService;
+use App\Services\Game\SearchGameService;
 use Illuminate\Http\JsonResponse;
 
 /**

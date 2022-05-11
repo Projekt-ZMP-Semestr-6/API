@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\Services;
+namespace App\Services\Game;
 
 use App\Models\Game;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,8 +13,6 @@ class SearchGameService
     {
         $gameName = strtr($gameName, ' ', '%');
 
-        $games = Game::where('name', 'ilike', "%$gameName%")->limit(5)->get();
-
-        return $games;
+        return Game::where('name', 'ilike', "%$gameName%")->limit(5)->get();
     }
 }
