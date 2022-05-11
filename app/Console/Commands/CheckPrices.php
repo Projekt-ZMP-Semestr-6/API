@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace App\Console\Commands;
 
-use App\Services\GamePriceUpdater;
-use App\Services\PriceRetriever;
+use App\Services\Game\GamePriceUpdater;
+use App\Services\Game\PriceRetriever;
 use Illuminate\Console\Command;
 
 class CheckPrices extends Command
