@@ -4,12 +4,10 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\User;
 
-use App\Exceptions\User\PasswordNotUpdatedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdatePasswordRequest;
+use App\Services\User\PasswordUpdater;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Hash;
-use Throwable;
 
 /**
  * @OA\Put(
@@ -73,17 +71,12 @@ use Throwable;
  */
 class UpdatePasswordController extends Controller
 {
-    public function __invoke(UpdatePasswordRequest $request): JsonResponse
+    public function __invoke(UpdatePasswordRequest $request, PasswordUpdater $updater): JsonResponse
     {
-        $newPassword = $request->validated('new_password');
         $user = $request->user('sanctum');
+        $newPassword = $request->validated('new_password');
 
-        try {
-            $user->password = Hash::make($newPassword);
-            $user->save();
-        } catch (Throwable) {
-            throw new PasswordNotUpdatedException;
-        }
+        $updater->update($user, $newPassword);
 
         return new JsonResponse('Password updated!');
     }
