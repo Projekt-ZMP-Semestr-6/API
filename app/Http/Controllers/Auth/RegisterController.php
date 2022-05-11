@@ -4,14 +4,11 @@ declare(strict_types = 1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\Auth\UserNotCreatedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Resources\UserResource;
-use App\Models\User;
+use App\Services\Auth\UserRegistrar;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
-use Throwable;
 
 /**
  * @OA\Post(
@@ -82,18 +79,12 @@ use Throwable;
  */
 class RegisterController extends Controller
 {
-    public function __invoke(RegisterRequest $request): JsonResponse
+    public function __invoke(RegisterRequest $request, UserRegistrar $registrar): JsonResponse
     {
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
 
-        try {
-            $user = User::create($validated);
-        } catch(Throwable) {
-            throw new UserNotCreatedException();
-        }
-
-        $user = new UserResource($user);
+        $user = $registrar->register($validated);
 
         return new JsonResponse($user, 201);
     }
